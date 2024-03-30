@@ -75,7 +75,7 @@ public class LogicCalcu {
                             case '>':
                                 stack.push(!operand1 || operand2); // IMPLIKASI
                                 break;
-                            case '=':
+                            case '<':
                                 stack.push(operand1 == operand2); // BIIMPLIKASI
                                 break;
                         }
