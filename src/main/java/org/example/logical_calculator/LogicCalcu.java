@@ -94,35 +94,15 @@ public class LogicCalcu {
         }
 
         public static void generateCombinations(String input) {
-            ArrayList<Character> arr = new ArrayList<>();
-            int countP = 0;
-            int countQ = 0;
+            int totalCombinations = getTotalCombinations(input);
 
-            // isi array dengan input, hitung jumlah variabel p dan q masing"
-            for (int i = 0; i < input.length(); i++) {
-                char ch = input.charAt(i);
-                if (ch == 'P' || ch == 'Q') {
-                    arr.add(ch);
-                    if (ch == 'P') {
-                        countP++;
-                    } else {
-                        countQ++;
-                    }
-                }
-            }
-
-            // Hitung jumlah kombinasi
-            int totalCombinations = 1 << (countP + countQ);
-
-            // Inisiaslisais arraylist untuk simpan kombinasi yang unik
+            // Inisiaslisasi arraylist untuk simpan kombinasi yang unik
             ArrayList<ArrayList<Character>> uniqueCombinations = new ArrayList<>();
 
             // Generating kombinasi Unik
             for (int i = 0; i < totalCombinations; i++) {
                 ArrayList<Character> copyArr = new ArrayList<>();
                 int index = 0;
-//            boolean prevPisZero = false;
-//            boolean prevQisZero = false;
                 char prevPValue = ' ';
                 char prevQValue = ' ';
 
@@ -130,33 +110,20 @@ public class LogicCalcu {
                     if (ch == 'P' || ch == 'Q') {
                         char value;
                         if (ch == 'P') {
-//                        if (prevPisZero) {
-//                            value = '0'; // Cek kalau nilai P sebelumnya = 0, maka P sekarang diberi nilai 0
-//                        } else {
                             value = ((i >> index) & 1) == 1 ? '1' : '0';
                             if (prevPValue == ' ') { // kalau nilai P masih kosong
                                 prevPValue = value;
                             } else {
                                 value = prevPValue; // Masukkan nilai P sebelumnya ke nilai P sekarang
                             }
-//                            if (value == '0') {
-//                                prevPisZero = true;
-//                            }
                         } else {
-//                        if (prevQisZero) {
-//                            value = '0'; // If previous Q is 0, set current Q to 0
-//                        } else {
                             value = ((i >> index) & 1) == 1 ? '1' : '0';
                             if (prevQValue == ' ') {
                                 prevQValue = value;
                             } else {
                                 value = prevQValue; // Set current Q value same as previous Q value
                             }
-//                            if (value == '0') {
-//                                prevQisZero = true;
-//                            }
                         }
-//                    }
                         copyArr.add(value);
                         index++;
                     } else {
@@ -198,7 +165,30 @@ public class LogicCalcu {
 
         }
 
-        // method untuk cek apakah kombinasinya unik
+    private static int getTotalCombinations(String input) {
+        ArrayList<Character> arr = new ArrayList<>();
+        int countP = 0;
+        int countQ = 0;
+
+        // isi array dengan input, hitung jumlah variabel p dan q masing"
+        for (int i = 0; i < input.length(); i++) {
+            char ch = input.charAt(i);
+            if (ch == 'P' || ch == 'Q') {
+                arr.add(ch);
+                if (ch == 'P') {
+                    countP++;
+                } else {
+                    countQ++;
+                }
+            }
+        }
+
+        // Hitung jumlah kombinasi
+        int totalCombinations = 1 << (countP + countQ);
+        return totalCombinations;
+    }
+
+    // method untuk cek apakah kombinasinya unik
         public static boolean isUnique(ArrayList<ArrayList<Character>> combinations, ArrayList<Character> combination) {
             for (ArrayList<Character> existingCombination : combinations) {
                 if (existingCombination.equals(combination)) {
