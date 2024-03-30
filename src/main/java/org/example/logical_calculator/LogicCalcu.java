@@ -183,15 +183,16 @@ public class LogicCalcu {
                 System.out.println(withParentheses + " => " + (resultValue ? " 1(true)" : "0(false)"));
                 evaluationResults.add(resultValue);
             }
+            int count = 0;
             for (boolean result: evaluationResults) {
                 if (!result) {
                     cek = false;
-                    break;
+                    count++;
                 }
             }
             if(cek){
                 System.out.println("Tautologi");
-            } else {
+            } else if(count == 4){
                 System.out.println("Kontradiksi");
             }
 
