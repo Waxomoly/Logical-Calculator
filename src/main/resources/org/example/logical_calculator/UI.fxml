@@ -9,91 +9,96 @@
   <padding>
     <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
   </padding>
-   <AnchorPane maxWidth="-Infinity" prefHeight="600.0" prefWidth="400.0" style="-fx-background-color: #ebedeb;">
+   <AnchorPane maxWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: #ebedeb;">
       <children>
-         <Button fx:id="negasiButton" layoutX="25.0" layoutY="465.0" mnemonicParsing="false" onAction="#onKeyboardClicked" prefHeight="50.0" prefWidth="50.0" text="¬" textAlignment="CENTER">
-            <font>
-               <Font size="20.0" />
-            </font>
-         </Button>
-         <Button fx:id="andButton" layoutX="75.0" layoutY="465.0" mnemonicParsing="false" onAction="#onKeyboardClicked" prefHeight="50.0" prefWidth="50.0" text="∧" textAlignment="CENTER">
-            <font>
-               <Font size="20.0" />
-            </font>
-         </Button>
-         <Button fx:id="orButton" layoutX="125.0" layoutY="465.0" mnemonicParsing="false" onAction="#onKeyboardClicked" prefHeight="50.0" prefWidth="50.0" text="∨" textAlignment="CENTER">
-            <font>
-               <Font size="20.0" />
-            </font>
-         </Button>
-         <Button fx:id="implicationButton" layoutX="175.0" layoutY="465.0" mnemonicParsing="false" onAction="#onKeyboardClicked" prefHeight="50.0" prefWidth="50.0" text="→" textAlignment="CENTER">
-            <font>
-               <Font size="20.0" />
-            </font>
-         </Button>
-         <Button fx:id="bimplicationButton" layoutX="225.0" layoutY="465.0" mnemonicParsing="false" onAction="#onKeyboardClicked" prefHeight="50.0" prefWidth="50.0" text="↔" textAlignment="CENTER">
-            <font>
-               <Font size="20.0" />
-            </font>
-         </Button>
-         <Button fx:id="PButton" layoutX="275.0" layoutY="465.0" mnemonicParsing="false" onAction="#onKeyboardClicked" prefHeight="50.0" prefWidth="50.0" text="P" textAlignment="CENTER">
-            <font>
-               <Font size="20.0" />
-            </font>
-         </Button>
-         <Button fx:id="QButton" layoutX="325.0" layoutY="465.0" mnemonicParsing="false" onAction="#onKeyboardClicked" prefHeight="50.0" prefWidth="50.0" text="Q" textAlignment="CENTER">
-            <font>
-               <Font size="20.0" />
-            </font>
-         </Button>
-         <Button fx:id="fButton" layoutX="25.0" layoutY="515.0" mnemonicParsing="false" onAction="#onKeyboardClicked" prefHeight="50.0" prefWidth="50.0" text="f" textAlignment="CENTER">
-            <font>
-               <Font size="20.0" />
-            </font>
-         </Button>
-         <Button fx:id="tButton" layoutX="75.0" layoutY="515.0" mnemonicParsing="false" onAction="#onKeyboardClicked" prefHeight="50.0" prefWidth="50.0" text="t" textAlignment="CENTER">
-            <font>
-               <Font size="20.0" />
-            </font>
-         </Button>
-         <Button fx:id="backspaceButton" layoutX="225.0" layoutY="515.0" mnemonicParsing="false" onAction="#onKeyboardClicked" prefHeight="50.0" prefWidth="50.0" text="&lt;-" textAlignment="CENTER">
-            <font>
-               <Font size="20.0" />
-            </font>
-         </Button>
-         <Button fx:id="clearButton" layoutX="275.0" layoutY="515.0" mnemonicParsing="false" onAction="#onKeyboardClicked" prefHeight="50.0" prefWidth="50.0" text="clr" textAlignment="CENTER">
-            <font>
-               <Font size="20.0" />
-            </font>
-         </Button>
-         <Button fx:id="openBracketButton" layoutX="125.0" layoutY="515.0" mnemonicParsing="false" onAction="#onKeyboardClicked" prefHeight="50.0" prefWidth="50.0" text="(" textAlignment="CENTER">
-            <font>
-               <Font size="20.0" />
-            </font>
-         </Button>
-         <Button fx:id="closingBracketButton" layoutX="175.0" layoutY="515.0" mnemonicParsing="false" onAction="#onKeyboardClicked" prefHeight="50.0" prefWidth="50.0" text=")" textAlignment="CENTER">
-            <font>
-               <Font size="20.0" />
-            </font>
-         </Button>
-         <Button fx:id="enterButton" layoutX="325.0" layoutY="515.0" mnemonicParsing="false" onAction="#onKeyboardClicked" prefHeight="50.0" prefWidth="50.0" text="↵" textAlignment="CENTER">
-            <font>
-               <Font size="20.0" />
-            </font>
-         </Button>
-         <ScrollPane layoutX="45.0" layoutY="39.0" prefHeight="60.0" prefWidth="310.0">
-            <content>
-               <AnchorPane prefHeight="60.0" prefWidth="310.0">
-                  <children>
-                     <Label fx:id="equationLabel" layoutX="-1.0" maxWidth="1.7976931348623157E308" minHeight="50.0" minWidth="300.0" prefHeight="50.0" prefWidth="500.0" style="-fx-background-color: #d6d6d6;">
+         <AnchorPane layoutX="400.0" prefHeight="600.0" prefWidth="400.0" style="-fx-background-color: #14151a;">
+            <children>
+               <AnchorPane layoutX="29.0" layoutY="32.0" prefHeight="535.0" prefWidth="342.0" style="-fx-background-color: ebebeb;" />
+            </children></AnchorPane>
+         <AnchorPane prefHeight="600.0" prefWidth="400.0" style="-fx-background-color: #1c1d24;">
+            <children>
+               <ScrollPane layoutX="45.0" layoutY="43.0" prefHeight="92.0" prefWidth="310.0">
+                  <content>
+                     <Label fx:id="equationLabel" maxWidth="1.7976931348623157E308" minHeight="50.0" minWidth="300.0" prefHeight="79.0" prefWidth="500.0" style="-fx-background-color: #d6d6d6;">
                         <font>
                            <Font size="15.0" />
                         </font>
                      </Label>
-                  </children>
-               </AnchorPane>
-            </content></ScrollPane>
-         <Label alignment="TOP_CENTER" layoutX="47.0" layoutY="120.0" prefHeight="316.0" prefWidth="310.0" text="Jawaban :" />
+                  </content>
+               </ScrollPane>
+               <Button fx:id="negasiButton" layoutX="45.0" layoutY="199.0" mnemonicParsing="false" onAction="#onKeyboardClicked" prefHeight="50.0" prefWidth="50.0" text="¬" textAlignment="CENTER">
+                  <font>
+                     <Font size="20.0" />
+                  </font>
+               </Button>
+               <Button fx:id="andButton" layoutX="134.0" layoutY="199.0" mnemonicParsing="false" onAction="#onKeyboardClicked" prefHeight="50.0" prefWidth="50.0" text="∧" textAlignment="CENTER">
+                  <font>
+                     <Font size="20.0" />
+                  </font>
+               </Button>
+               <Button fx:id="orButton" layoutX="220.0" layoutY="199.0" mnemonicParsing="false" onAction="#onKeyboardClicked" prefHeight="50.0" prefWidth="50.0" text="∨" textAlignment="CENTER">
+                  <font>
+                     <Font size="20.0" />
+                  </font>
+               </Button>
+               <Button fx:id="implicationButton" layoutX="45.0" layoutY="370.0" mnemonicParsing="false" onAction="#onKeyboardClicked" prefHeight="50.0" prefWidth="50.0" text="→" textAlignment="CENTER">
+                  <font>
+                     <Font size="20.0" />
+                  </font>
+               </Button>
+               <Button fx:id="bimplicationButton" layoutX="134.0" layoutY="370.0" mnemonicParsing="false" onAction="#onKeyboardClicked" prefHeight="50.0" prefWidth="50.0" text="↔" textAlignment="CENTER">
+                  <font>
+                     <Font size="20.0" />
+                  </font>
+               </Button>
+               <Button fx:id="PButton" layoutX="45.0" layoutY="281.0" mnemonicParsing="false" onAction="#onKeyboardClicked" prefHeight="50.0" prefWidth="50.0" text="P" textAlignment="CENTER">
+                  <font>
+                     <Font size="20.0" />
+                  </font>
+               </Button>
+               <Button fx:id="QButton" layoutX="134.0" layoutY="281.0" mnemonicParsing="false" onAction="#onKeyboardClicked" prefHeight="50.0" prefWidth="50.0" text="Q" textAlignment="CENTER">
+                  <font>
+                     <Font size="20.0" />
+                  </font>
+               </Button>
+               <Button fx:id="fButton" layoutX="220.0" layoutY="281.0" mnemonicParsing="false" onAction="#onKeyboardClicked" prefHeight="50.0" prefWidth="50.0" text="f" textAlignment="CENTER">
+                  <font>
+                     <Font size="20.0" />
+                  </font>
+               </Button>
+               <Button fx:id="tButton" layoutX="305.0" layoutY="281.0" mnemonicParsing="false" onAction="#onKeyboardClicked" prefHeight="50.0" prefWidth="50.0" text="t" textAlignment="CENTER">
+                  <font>
+                     <Font size="20.0" />
+                  </font>
+               </Button>
+               <Button fx:id="backspaceButton" layoutX="305.0" layoutY="199.0" mnemonicParsing="false" onAction="#onKeyboardClicked" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: #de4f02;" text="&lt;-" textAlignment="CENTER">
+                  <font>
+                     <Font size="20.0" />
+                  </font>
+               </Button>
+               <Button fx:id="clearButton" layoutX="45.0" layoutY="487.0" mnemonicParsing="false" onAction="#onKeyboardClicked" prefHeight="50.0" prefWidth="136.0" style="-fx-background-color: #de4f02;" text="clear" textAlignment="CENTER">
+                  <font>
+                     <Font size="20.0" />
+                  </font>
+               </Button>
+               <Button fx:id="openBracketButton" layoutX="220.0" layoutY="370.0" mnemonicParsing="false" onAction="#onKeyboardClicked" prefHeight="50.0" prefWidth="50.0" text="(" textAlignment="CENTER">
+                  <font>
+                     <Font size="20.0" />
+                  </font>
+               </Button>
+               <Button fx:id="closingBracketButton" layoutX="305.0" layoutY="370.0" mnemonicParsing="false" onAction="#onKeyboardClicked" prefHeight="50.0" prefWidth="50.0" text=")" textAlignment="CENTER">
+                  <font>
+                     <Font size="20.0" />
+                  </font>
+               </Button>
+               <Button fx:id="enterButton" layoutX="220.0" layoutY="487.0" mnemonicParsing="false" onAction="#onKeyboardClicked" prefHeight="50.0" prefWidth="136.0" text="=" textAlignment="CENTER">
+                  <font>
+                     <Font size="20.0" />
+                  </font>
+               </Button>
+               <Label layoutX="303.0" layoutY="181.0" text="Backspace" textFill="WHITE" />
+            </children>
+         </AnchorPane>
       </children>
    </AnchorPane>
 
