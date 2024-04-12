@@ -6,7 +6,6 @@ public class LogicCalcu {
     public static boolean isOperator(char c) {
         return c == '~' || c == '&' || c == '|' || c == '>' || c == '<';
     }
-
     public static int precedence(char c) {
         return switch (c) {
             case '~' -> 3; // Negasi
@@ -16,7 +15,6 @@ public class LogicCalcu {
             default -> -1; // IMPLIKASI BIIMPLIKASI
         };
     }
-
     public static String addParentheses(String expression) {
         StringBuilder result = new StringBuilder();
         Stack<Character> stack = new Stack<>();
@@ -40,7 +38,6 @@ public class LogicCalcu {
                 stack.push(c);
             }
         }
-
         while (!stack.isEmpty()) {
             result.append(stack.pop());
         }
@@ -71,14 +68,12 @@ public class LogicCalcu {
         }
         return stack;
     }
-
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         System.out.println("Enter the string:");
         String input = sc.nextLine();
         generateCombinations(input);
     }
-
     public static void generateCombinations(String input) {
         int totalCombinations = getTotalCombinations(input);
 
@@ -182,7 +177,6 @@ public class LogicCalcu {
                 }
             }
             // coba print
-
             for (char ch : valueArr) {
                 System.out.print(ch + " ");
             }
@@ -197,11 +191,9 @@ public class LogicCalcu {
                 System.out.println("Kontingensi");
             }
     }
-
     private static int getTotalCombinations(String input) {
         int countP = 0;
         int countQ = 0;
-
         // Hitung jumlah variabel P dan Q
         for (int i = 0; i < input.length(); i++) {
             char ch = input.charAt(i);
@@ -211,7 +203,6 @@ public class LogicCalcu {
                 countQ++;
             }
         }
-
         // Hitung jumlah kombinasi
         return 1 << (countP + countQ);
     }
@@ -226,4 +217,3 @@ public class LogicCalcu {
         return true;
     }
 }
-
