@@ -59,7 +59,7 @@ public class HelloController {
     @FXML
     protected void printLabel(){
         //Use Stringbuilder
-        StringBuilder stringBuilder = new StringBuilder();
+        StringBuilder                               stringBuilder = new StringBuilder();
 
         for(char c : calculatorBody.getEquationOnLabel()){
             stringBuilder.append(c);
