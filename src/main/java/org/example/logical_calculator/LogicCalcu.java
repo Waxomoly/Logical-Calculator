@@ -97,7 +97,6 @@ public class LogicCalcu {
             char prevQValue = ' ';
 
             for (char ch : temp) {
-                if (ch == 'P' || ch == 'Q') {
                     char value;
                     if (ch == 'P') {
                         value = ((i >> index) & 1) == 1 ? '1' : '0';
@@ -106,19 +105,22 @@ public class LogicCalcu {
                         } else {
                             value = prevPValue; // Masukkan nilai P sebelumnya ke nilai P sekarang
                         }
-                    } else {
+                    } else if(ch == 'Q') {
                         value = ((i >> index) & 1) == 1 ? '1' : '0';
                         if (prevQValue == ' ') {
                             prevQValue = value;
                         } else {
                             value = prevQValue; // Set nilai Q sekarang sama dengan nilai Q sebelumnya
                         }
+                    } else if(ch == 'T') {
+                        value = '1';
+                    } else if(ch == 'F'){
+                        value = '0';
+                    } else {
+                        value = ch;
                     }
-                    copyArr.add(value);
-                    index++;
-                } else {
-                    copyArr.add(ch);
-                }
+                copyArr.add(value);
+                index++;
             }
             // Tambahkan ke list jika unik
             if (isUnique(uniqueCombinations, copyArr)) {
@@ -138,8 +140,10 @@ public class LogicCalcu {
 
             int countP = -1;
             int countQ = -1;
+            int countT = -1;
+            int countF = -1;
             // ambil dan simpan nilai P dan Q hasil generate kombinasi, namun hanya menyimpan satu value saja per variabel (pasti sama)
-            for (int i = 0; i < input.toCharArray().length; i++) {
+            for (int i = 0; i < temp.size(); i++) {
                 for (int j = 0; j < combination.size(); j++) {
                     if (countP == -1) {
                         if (i == j & (temp.get(i) == 'P')) {
@@ -151,6 +155,18 @@ public class LogicCalcu {
                         if (i == j & (temp.get(i) == 'Q')) {
                             valueArr.add(combination.get(i));
                             countQ++;
+                        }
+                    }
+                    if (countT == -1){
+                        if(i == j & (temp.get(i) == 'T')){
+                            valueArr.add(combination.get(i));
+                            countT++;
+                        }
+                    }
+                    if (countF == -1){
+                        if(i == j & (temp.get(i) == 'F')){
+                            valueArr.add(combination.get(i));
+                            countF++;
                         }
                     }
                 }
