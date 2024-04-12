@@ -8,18 +8,13 @@ public class LogicCalcu {
     }
 
     public static int precedence(char c) {
-        switch (c) {
-            case '~':
-                return 3; // Negasi
-            case '&':
-                return 2; // AND
-            case '|':
-                return 1; // OR
-            case '>':
-            case '<':
-                return 0; // IMPLIKASI BIIMPLIKASI
-        }
-        return -1;
+        return switch (c) {
+            case '~' -> 3; // Negasi
+            case '&' -> 2; // AND
+            case '|' -> 1; // OR
+            case '>', '<' -> 0;
+            default -> -1; // IMPLIKASI BIIMPLIKASI
+        };
     }
 
     public static String addParentheses(String expression) {
@@ -52,41 +47,9 @@ public class LogicCalcu {
 
         return result.toString();
     }
+    // buat hitung hasil
 
-    public static ArrayList<Boolean> evaluateExpression(String expression) {
-        Stack<Boolean> stack = new Stack<>();
-        ArrayList<Boolean> temp = new ArrayList<>();
-        for (char c : expression.toCharArray()) {
-            if (Character.isDigit(c)) {
-                temp.add(stack.push(c == '1'));
-            } else if (isOperator(c)) {
-                if (c == '~') {
-                    temp.add(stack.push(!stack.pop())); // Negasi
-                } else {
-                    boolean operand2 = stack.pop();
-                    boolean operand1 = stack.pop();
-                    switch (c) {
-                        case '&':
-                            temp.add(stack.push(operand1 && operand2)); // AND
-                            break;
-                        case '|':
-                            temp.add(stack.push(operand1 || operand2)); // OR
-                            break;
-                        case '>':
-                            temp.add(stack.push(!operand1 || operand2)); // IMPLIKASI
-                            break;
-                        case '<':
-                            temp.add(stack.push(operand1 == operand2)); // BIIMPLIKASI
-                            break;
-                    }
-                }
-            }
-        }
-
-        return temp;
-    }
-
-    public static boolean evaluatingResult(String expression) {
+    public static Stack<Boolean> evaluateExpression(String expression) {
         Stack<Boolean> stack = new Stack<>();
         for (char c : expression.toCharArray()) {
             if (Character.isDigit(c)) {
@@ -98,24 +61,15 @@ public class LogicCalcu {
                     boolean operand2 = stack.pop();
                     boolean operand1 = stack.pop();
                     switch (c) {
-                        case '&':
-                            stack.push(operand1 && operand2); // AND
-                            break;
-                        case '|':
-                            stack.push(operand1 || operand2); // OR
-                            break;
-                        case '>':
-                            stack.push(!operand1 || operand2); // IMPLIKASI
-                            break;
-                        case '<':
-                            stack.push(operand1 == operand2); // BIIMPLIKASI
-                            break;
+                        case '&' -> stack.push(operand1 && operand2); // AND
+                        case '|' -> stack.push(operand1 || operand2); // OR
+                        case '>' -> stack.push(!operand1 || operand2); // IMPLIKASI
+                        case '<' -> stack.push(operand1 == operand2); // BIIMPLIKASI
                     }
                 }
             }
         }
-
-        return stack.pop();
+        return stack;
     }
 
     public static void main(String[] args) {
@@ -130,6 +84,10 @@ public class LogicCalcu {
 
         // Inisialisasi arraylist untuk menyimpan kombinasi yang unik
         ArrayList<ArrayList<Character>> uniqueCombinations = new ArrayList<>();
+        ArrayList<Character> temp = new ArrayList<>(); // buat simpan input dengan tipe data char
+        for (int i = 0; i < input.toCharArray().length; i++) {
+            temp.add(input.charAt(i));
+        }
 
         // Membangkitkan kombinasi unik
         for (int i = 0; i < totalCombinations; i++) {
@@ -138,7 +96,7 @@ public class LogicCalcu {
             char prevPValue = ' ';
             char prevQValue = ' ';
 
-            for (char ch : input.toCharArray()) {
+            for (char ch : temp) {
                 if (ch == 'P' || ch == 'Q') {
                     char value;
                     if (ch == 'P') {
@@ -167,64 +125,79 @@ public class LogicCalcu {
                 uniqueCombinations.add(copyArr);
             }
         }
-        boolean cek = true;
-        ArrayList<Boolean> evaluationResults = new ArrayList<>();
-
-
-        // Print kombinasi dan hasilnya
+        int count = 0;
+        // Mangambil kombinasi unik dan menghitung hasil evaluasi
         for (ArrayList<Character> combination : uniqueCombinations) {
             StringBuilder result = new StringBuilder();
             for (char ch : combination) {
                 result.append(ch).append(" ");
             }
-            String withParentheses = addParentheses(result.toString());
-            boolean resultValue = evaluatingResult(withParentheses);
-            evaluationResults.add(resultValue);
+            String withParentheses = addParentheses(result.toString()); // ubah ke postfix
+            Stack<Boolean> evaluationResult = evaluateExpression(withParentheses); // mengoperasikan
+            ArrayList<Character> valueArr = new ArrayList<>(); // buat simpan nilai P dan Q, serta hasil operasi
 
-            for (boolean hasil : evaluateExpression(withParentheses)) {
-                if (hasil) {
-                    System.out.print(1 + " ");
-                } else {
-                    System.out.print(0 + " ");
+            int countP = -1;
+            int countQ = -1;
+            // ambil dan simpan nilai P dan Q hasil generate kombinasi, namun hanya menyimpan satu value saja per variabel (pasti sama)
+            for (int i = 0; i < input.toCharArray().length; i++) {
+                for (int j = 0; j < combination.size(); j++) {
+                    if (countP == -1) {
+                        if (i == j & (temp.get(i) == 'P')) {
+                            valueArr.add(combination.get(i));
+                            countP++;
+                        }
+                    }
+                    if (countQ == -1) {
+                        if (i == j & (temp.get(i) == 'Q')) {
+                            valueArr.add(combination.get(i));
+                            countQ++;
+                        }
+                    }
                 }
+            }
+            // simpan hasil operasi ke valueArr
+            while (!evaluationResult.isEmpty()) {
+                boolean hasil = evaluationResult.pop();
+                if (hasil) {
+                    valueArr.add('1');
+                    count++;
+                } else {
+                    valueArr.add('0');
+                }
+            }
+            // coba print
+
+            for (char ch : valueArr) {
+                System.out.print(ch + " ");
             }
             System.out.println();
         }
-        int count = 0;
-        for (boolean hasil : evaluationResults) {
-            if (!hasil) {
-                cek = false;
-                count++;
+        // menentukan tautologi, kontradiksi, kontingensi
+            if(count == 4) {
+                System.out.println("Tautologi");
+            } else if(count == 0) {
+                System.out.println("Kontradiksi");
+            } else {
+                System.out.println("Kontingensi");
             }
-        }
-        if (cek) {
-            System.out.println("Tautologi");
-        } else if (count == 4) {
-            System.out.println("Kontradiksi");
-        }
     }
 
     private static int getTotalCombinations(String input) {
-        ArrayList<Character> arr = new ArrayList<>();
         int countP = 0;
         int countQ = 0;
 
-        // Isi array dengan input, hitung jumlah variabel p dan q masing"
+        // Hitung jumlah variabel P dan Q
         for (int i = 0; i < input.length(); i++) {
             char ch = input.charAt(i);
-            if (ch == 'P' || ch == 'Q') {
-                arr.add(ch);
-                if (ch == 'P') {
-                    countP++;
-                } else {
-                    countQ++;
-                }
+            if (ch == 'P') {
+                countP++;
+            } else if (ch == 'Q') {
+                countQ++;
             }
         }
 
         // Hitung jumlah kombinasi
-        int totalCombinations = 1 << (countP + countQ);
-        return totalCombinations;
+        return 1 << (countP + countQ);
     }
 
     // Metode untuk memeriksa apakah kombinasi tersebut unik
@@ -237,3 +210,4 @@ public class LogicCalcu {
         return true;
     }
 }
+
