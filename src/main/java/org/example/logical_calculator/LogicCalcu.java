@@ -26,6 +26,10 @@ public class LogicCalcu {
                 result.append(c);
             } else if (c == '(') {
                 stack.push(c);
+                if (i > 0 && expression.charAt(i - 1) == '(') {
+                    // Kurung ganda terdeteksi, tambahkan operator AND ('&') di antara kurung ganda
+                    stack.push('&');
+                }
             } else if (c == ')') {
                 while (!stack.isEmpty() && stack.peek() != '(') {
                     result.append(stack.pop());
@@ -75,7 +79,6 @@ public class LogicCalcu {
         generateCombinations(input);
     }
     public static void generateCombinations(String input) {
-        int totalCombinations = getTotalCombinations(input);
 
         // Inisialisasi arraylist untuk menyimpan kombinasi yang unik
         ArrayList<ArrayList<Character>> uniqueCombinations = new ArrayList<>();
@@ -83,45 +86,38 @@ public class LogicCalcu {
         for (int i = 0; i < input.toCharArray().length; i++) {
             temp.add(input.charAt(i));
         }
-
-        // Membangkitkan kombinasi unik
-        for (int i = 0; i < totalCombinations; i++) {
-            ArrayList<Character> copyArr = new ArrayList<>();
-            int index = 0;
-            char prevPValue = ' ';
-            char prevQValue = ' ';
-
-            for (char ch : temp) {
+        char[] valuesP = {'0', '1'};
+        char[] valuesQ = {'0', '1'};
+        for (char valueP : valuesP) {
+            for (char valueQ : valuesQ) {
+                ArrayList<Character> copyArr = new ArrayList<>();
+                for (int i = 0; i < temp.size(); i++) {
                     char value;
-                    if (ch == 'P') {
-                        value = ((i >> index) & 1) == 1 ? '1' : '0';
-                        if (prevPValue == ' ') { // Jika nilai P masih kosong
-                            prevPValue = value;
-                        } else {
-                            value = prevPValue; // Masukkan nilai P sebelumnya ke nilai P sekarang
-                        }
-                    } else if(ch == 'Q') {
-                        value = ((i >> index) & 1) == 1 ? '1' : '0';
-                        if (prevQValue == ' ') {
-                            prevQValue = value;
-                        } else {
-                            value = prevQValue; // Set nilai Q sekarang sama dengan nilai Q sebelumnya
-                        }
-                    } else if(ch == 'T') {
+                    if (temp.get(i) == 'P') {
+                        value = valueP;
+                    } else if (temp.get(i) == 'Q') {
+                        value = valueQ;
+                    } else if (temp.get(i) == 'T') {
                         value = '1';
-                    } else if(ch == 'F'){
+                    } else if (temp.get(i) == 'F') {
                         value = '0';
                     } else {
-                        value = ch;
+                        value = temp.get(i);
                     }
-                copyArr.add(value);
-                index++;
-            }
-            // Tambahkan ke list jika unik
-            if (isUnique(uniqueCombinations, copyArr)) {
-                uniqueCombinations.add(copyArr);
+                    copyArr.add(value);
+                }
+                if (isUnique(uniqueCombinations, copyArr)) {
+                    uniqueCombinations.add(copyArr);
+                }
             }
         }
+//        for (ArrayList<Character> combination : uniqueCombinations) {
+//            for (char ch : combination) {
+//                System.out.print(ch + " ");
+//            }
+//            System.out.println();
+//        }
+
         int count = 0;
         // Mangambil kombinasi unik dan menghitung hasil evaluasi
         for (ArrayList<Character> combination : uniqueCombinations) {
@@ -140,28 +136,30 @@ public class LogicCalcu {
             // ambil dan simpan nilai P dan Q hasil generate kombinasi, namun hanya menyimpan satu value saja per variabel (pasti sama)
             for (int i = 0; i < temp.size(); i++) {
                 for (int j = 0; j < combination.size(); j++) {
-                    if (countP == -1) {
-                        if (i == j & (temp.get(i) == 'P')) {
-                            valueArr.add(combination.get(i));
-                            countP++;
+                    if (i == j) {
+                        if (countP == -1) {
+                            if (temp.get(i) == 'P') {
+                                valueArr.add(combination.get(i));
+                                countP++;
+                            }
                         }
-                    }
-                    if (countQ == -1) {
-                        if (i == j & (temp.get(i) == 'Q')) {
-                            valueArr.add(combination.get(i));
-                            countQ++;
+                        if (countQ == -1) {
+                            if (temp.get(i) == 'Q') {
+                                valueArr.add(combination.get(i));
+                                countQ++;
+                            }
                         }
-                    }
-                    if (countT == -1){
-                        if(i == j & (temp.get(i) == 'T')){
-                            valueArr.add(combination.get(i));
-                            countT++;
+                        if (countT == -1) {
+                            if (temp.get(i) == 'T') {
+                                valueArr.add(combination.get(i));
+                                countT++;
+                            }
                         }
-                    }
-                    if (countF == -1){
-                        if(i == j & (temp.get(i) == 'F')){
-                            valueArr.add(combination.get(i));
-                            countF++;
+                        if (countF == -1) {
+                            if (temp.get(i) == 'F') {
+                                valueArr.add(combination.get(i));
+                                countF++;
+                            }
                         }
                     }
                 }
@@ -182,29 +180,14 @@ public class LogicCalcu {
             }
             System.out.println();
         }
-        // menentukan tautologi, kontradiksi, kontingensi
-            if(count == 4) {
-                System.out.println("Tautologi");
-            } else if(count == 0) {
-                System.out.println("Kontradiksi");
-            } else {
-                System.out.println("Kontingensi");
-            }
-    }
-    private static int getTotalCombinations(String input) {
-        int countP = 0;
-        int countQ = 0;
-        // Hitung jumlah variabel P dan Q
-        for (int i = 0; i < input.length(); i++) {
-            char ch = input.charAt(i);
-            if (ch == 'P') {
-                countP++;
-            } else if (ch == 'Q') {
-                countQ++;
-            }
+        // Buat message --> menentukan tautologi, kontradiksi, kontingensi
+        if(count == 4) {
+            System.out.println("Tautologi");
+        } else if(count == 0) {
+            System.out.println("Kontradiksi");
+        } else {
+            System.out.println("Kontingensi");
         }
-        // Hitung jumlah kombinasi
-        return 1 << (countP + countQ);
     }
 
     // Metode untuk memeriksa apakah kombinasi tersebut unik
