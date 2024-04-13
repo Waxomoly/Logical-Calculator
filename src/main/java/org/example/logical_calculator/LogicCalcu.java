@@ -132,8 +132,6 @@ public class LogicCalcu {
 
             int countP = -1;
             int countQ = -1;
-            int countT = -1;
-            int countF = -1;
             // ambil dan simpan nilai P dan Q hasil generate kombinasi, namun hanya menyimpan satu value saja per variabel (pasti sama)
             for (int i = 0; i < temp.size(); i++) {
                 for (int j = 0; j < combination.size(); j++) {
@@ -148,18 +146,6 @@ public class LogicCalcu {
                             if (temp.get(i) == 'Q') {
                                 valueArr.add(combination.get(i));
                                 countQ++;
-                            }
-                        }
-                        if (countT == -1) {
-                            if (temp.get(i) == 'T') {
-                                valueArr.add(combination.get(i));
-                                countT++;
-                            }
-                        }
-                        if (countF == -1) {
-                            if (temp.get(i) == 'F') {
-                                valueArr.add(combination.get(i));
-                                countF++;
                             }
                         }
                     }
