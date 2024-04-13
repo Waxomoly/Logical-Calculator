@@ -130,27 +130,6 @@ public class LogicCalcu {
             Stack<Boolean> evaluationResult = evaluateExpression(withParentheses); // mengoperasikan
             ArrayList<Character> valueArr = new ArrayList<>(); // buat simpan nilai P dan Q, serta hasil operasi
 
-            int countP = -1;
-            int countQ = -1;
-            // ambil dan simpan nilai P dan Q hasil generate kombinasi, namun hanya menyimpan satu value saja per variabel (pasti sama)
-            for (int i = 0; i < temp.size(); i++) {
-                for (int j = 0; j < combination.size(); j++) {
-                    if (i == j) {
-                        if (countP == -1) {
-                            if (temp.get(i) == 'P') {
-                                valueArr.add(combination.get(i));
-                                countP++;
-                            }
-                        }
-                        if (countQ == -1) {
-                            if (temp.get(i) == 'Q') {
-                                valueArr.add(combination.get(i));
-                                countQ++;
-                            }
-                        }
-                    }
-                }
-            }
             // simpan hasil operasi ke valueArr
             while (!evaluationResult.isEmpty()) {
                 boolean hasil = evaluationResult.pop();
