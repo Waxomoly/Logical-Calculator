@@ -4,13 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="529ea731-7e24-4f72-83f3-cb0b680c251f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/logical_calculator/LogicCalcu.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/org/example/logical_calculator/LogicCalcu.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/logical_calculator/CalculatorBody.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/logical_calculator/CalculatorBody.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/logical_calculator/HelloController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/logical_calculator/HelloController.java" afterDir="false" />
-    </list>
+    <list default="true" id="529ea731-7e24-4f72-83f3-cb0b680c251f" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -32,7 +26,7 @@
     "Application.HelloApplication.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "Merging Kelly",
+    "git-widget-placeholder": "Kelly",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "D:/KELLY PATRICIA/Documents/.ACADEMIC/GitHub/Logical-Calculator"
   }
