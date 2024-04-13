@@ -3,6 +3,7 @@ package org.example.logical_calculator;
 import java.util.*;
 
 public class LogicCalcu {
+    // Pengecekan apakah sebuah operator
     public static boolean isOperator(char c) {
         return c == '~' || c == '&' || c == '|' || c == '>' || c == '<';
     }
