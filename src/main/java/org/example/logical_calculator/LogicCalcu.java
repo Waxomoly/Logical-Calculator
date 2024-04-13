@@ -3,6 +3,34 @@ package org.example.logical_calculator;
 import java.util.*;
 
 public class LogicCalcu {
+
+    //ini array jawaban
+    private static ArrayList<Character> valueArr = new ArrayList<>();
+    //boolean values for lights in output section
+    private static boolean tautologiStatus = false;
+    private static boolean kontradiksiStatus = false;
+    private static boolean kontingensiStatus = false;
+
+    public static ArrayList<Character> getValueArr() {
+        return valueArr;
+    }
+
+    public static boolean isTautologiStatus() {
+        return tautologiStatus;
+    }
+
+    public static boolean isKontradiksiStatus() {
+        return kontradiksiStatus;
+    }
+
+    public static boolean isKontingensiStatus() {
+        return kontingensiStatus;
+    }
+
+    //constructor
+    public LogicCalcu() {
+    }
+
     // Pengecekan apakah sebuah operator
     public static boolean isOperator(char c) {
         return c == '~' || c == '&' || c == '|' || c == '>' || c == '<';
@@ -91,6 +119,7 @@ public class LogicCalcu {
         char[] valuesQ = {'0', '1'};
         for (char valueP : valuesP) {
             for (char valueQ : valuesQ) {
+                //System.out.println("p = " + valueP + "   q = " + valueQ);
                 ArrayList<Character> copyArr = new ArrayList<>();
                 for (int i = 0; i < temp.size(); i++) {
                     char value;
@@ -128,7 +157,7 @@ public class LogicCalcu {
             }
             String withParentheses = addParentheses(result.toString()); // ubah ke postfix
             Stack<Boolean> evaluationResult = evaluateExpression(withParentheses); // mengoperasikan
-            ArrayList<Character> valueArr = new ArrayList<>(); // buat simpan nilai P dan Q, serta hasil operasi
+            valueArr = new ArrayList<>(); // buat simpan nilai P dan Q, serta hasil operasi
 
             // simpan hasil operasi ke valueArr
             while (!evaluationResult.isEmpty()) {
@@ -149,10 +178,24 @@ public class LogicCalcu {
         // Buat message --> menentukan tautologi, kontradiksi, kontingensi
         if(count == 4) {
             System.out.println("Tautologi");
+            //below buat UI
+            tautologiStatus = true;
+            kontradiksiStatus = false;
+            kontingensiStatus = false;
         } else if(count == 0) {
             System.out.println("Kontradiksi");
+            //below buat UI
+            tautologiStatus = false;
+            kontradiksiStatus = true;
+            kontingensiStatus = false;
+
         } else {
             System.out.println("Kontingensi");
+            //below buat UI
+            tautologiStatus = false;
+            kontradiksiStatus = false;
+            kontingensiStatus = true;
+
         }
     }
 
