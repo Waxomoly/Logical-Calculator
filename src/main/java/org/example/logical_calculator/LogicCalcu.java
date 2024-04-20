@@ -3,9 +3,8 @@ package org.example.logical_calculator;
 import java.util.*;
 
 public class LogicCalcu {
-    //initialize boolean value for if a P or Q is found
-    private static boolean PFound = false;
-    private static boolean QFound = false;
+    //Variabel Found Status
+    public static boolean PFound, QFound;
 
     //ini array jawaban
     private static ArrayList<Character> valueArr = new ArrayList<>();
@@ -30,32 +29,19 @@ public class LogicCalcu {
         return kontingensiStatus;
     }
 
-    public static void setPFound(boolean PFound) {
-        LogicCalcu.PFound = PFound;
-    }
 
-    public static void setQFound(boolean QFound) {
-        LogicCalcu.QFound = QFound;
-    }
 
-    public static boolean isPFound() {
-        return PFound;
-    }
-
-    public static boolean isQFound() {
-        return QFound;
-    }
 
     // Pengecekan apakah sebuah operator
     public static boolean isOperator(char c) {
-        return c == '¬' || c == '^' || c == 'v' || c == '→' || c == '↔';
+        return c == '~' || c == '&' || c == '|' || c == '>' || c == '<';
     }
     public static int precedence(char c) {
         return switch (c) {
-            case '¬' -> 3; // Negasi
-            case '^' -> 2; // AND
-            case 'v' -> 1; // OR
-            case '→', '↔' -> 0;
+            case '~' -> 3; // Negasi
+            case '&' -> 2; // AND
+            case '|' -> 1; // OR
+            case '>', '<' -> 0;
             default -> -1; // IMPLIKASI BIIMPLIKASI
         };
     }
@@ -72,7 +58,7 @@ public class LogicCalcu {
                 stack.push(c);
                 if (i > 0 && expression.charAt(i - 1) == '(') {
                     // Kurung ganda terdeteksi, tambahkan operator AND ('&') di antara kurung ganda
-                    stack.push('^');
+                    stack.push('&');
                 }
             } else if (c == ')') {
                 while (!stack.isEmpty() && stack.peek() != '(') {
@@ -100,16 +86,16 @@ public class LogicCalcu {
             if (Character.isDigit(c)) {
                 stack.push(c == '1');
             } else if (isOperator(c)) {
-                if (c == '¬') {
+                if (c == '~') {
                     stack.push(!stack.pop()); // Negasi
                 } else {
                     boolean operand2 = stack.pop();
                     boolean operand1 = stack.pop();
                     switch (c) {
-                        case '^' -> stack.push(operand1 && operand2); // AND
-                        case 'v' -> stack.push(operand1 || operand2); // OR
-                        case '→' -> stack.push(!operand1 || operand2); // IMPLIKASI
-                        case '↔' -> stack.push(operand1 == operand2); // BIIMPLIKASI
+                        case '&' -> stack.push(operand1 && operand2); // AND
+                        case '|' -> stack.push(operand1 || operand2); // OR
+                        case '>' -> stack.push(!operand1 || operand2); // IMPLIKASI
+                        case '<' -> stack.push(operand1 == operand2); // BIIMPLIKASI
                     }
                 }
             }
@@ -123,9 +109,7 @@ public class LogicCalcu {
 //        generateCombinations(input);
     }
     public static void generateCombinations(ArrayList<Character> input) {
-        //initialize variable found status
-        LogicCalcu.setPFound(false);
-        LogicCalcu.setQFound(false);
+
         // Inisialisasi arraylist untuk menyimpan kombinasi yang unik
         ArrayList<ArrayList<Character>> uniqueCombinations = new ArrayList<>();
         ArrayList<Character> temp = new ArrayList<>(); // buat simpan input dengan tipe data char
@@ -142,11 +126,10 @@ public class LogicCalcu {
                     char value;
                     if (temp.get(i) == 'P') {
                         value = valueP;
-                        LogicCalcu.setPFound(true);
-                        System.out.println("HA");
+                        LogicCalcu.PFound = true;
                     } else if (temp.get(i) == 'Q') {
                         value = valueQ;
-                        LogicCalcu.setQFound(true);
+                        LogicCalcu.QFound = true;
                     } else if (temp.get(i) == 'T') {
                         value = '1';
                     } else if (temp.get(i) == 'F') {
@@ -170,6 +153,7 @@ public class LogicCalcu {
 
         int count = 0;
         // Mangambil kombinasi unik dan menghitung hasil evaluasi
+        valueArr = new ArrayList<>(); // buat simpan nilai P dan Q, serta hasil operasi
         for (ArrayList<Character> combination : uniqueCombinations) {
             StringBuilder result = new StringBuilder();
             for (char ch : combination) {
@@ -177,7 +161,6 @@ public class LogicCalcu {
             }
             String withParentheses = addParentheses(result.toString()); // ubah ke postfix
             Stack<Boolean> evaluationResult = evaluateExpression(withParentheses); // mengoperasikan
-            valueArr = new ArrayList<>(); // buat simpan nilai P dan Q, serta hasil operasi
 
             // simpan hasil operasi ke valueArr
             while (!evaluationResult.isEmpty()) {

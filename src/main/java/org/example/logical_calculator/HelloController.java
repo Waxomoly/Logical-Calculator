@@ -20,6 +20,7 @@ public class HelloController {
     private TableView myTable;
 
     private CalculatorBody calculatorBody = new CalculatorBody();
+    private LogicCalcu logicCalcu = new LogicCalcu();
 
     @FXML
     protected void onKeyboardClicked(ActionEvent e) {
@@ -29,13 +30,13 @@ public class HelloController {
         if(clickedButton == negasiButton){
             calculatorBody.addToEquation('¬');
         }else if(clickedButton == andButton){
-            calculatorBody.addToEquation('∧');
+            calculatorBody.addToEquation('&');
         }else if(clickedButton == orButton){
-            calculatorBody.addToEquation('∨');
+            calculatorBody.addToEquation('|');
         }else if(clickedButton == implicationButton){
-            calculatorBody.addToEquation('→');
+            calculatorBody.addToEquation('>');
         }else if(clickedButton == bimplicationButton){
-            calculatorBody.addToEquation('↔');
+            calculatorBody.addToEquation('<');
         }else if(clickedButton == PButton){
             calculatorBody.addToEquation('P');
         }else if(clickedButton == QButton){
@@ -69,7 +70,17 @@ public class HelloController {
         StringBuilder stringBuilder = new StringBuilder();
 
         for(char c : calculatorBody.getEquationOnLabel()){
-            stringBuilder.append(c);
+            if(c == '&'){
+                stringBuilder.append('^');
+            }else if(c == '|'){
+                stringBuilder.append('v');
+            }else if(c == '>'){ //implication
+                stringBuilder.append('→');
+            }else if(c == '<'){ //biimplication
+                stringBuilder.append('↔');
+            }else {
+                stringBuilder.append(c);
+            }
         }
 
         equationLabel.setText(stringBuilder.toString());
@@ -79,10 +90,13 @@ public class HelloController {
     protected void enterLabel(){
         //Clear Table
         myTable.getColumns().clear();
+        //set variables found status to false
+        LogicCalcu.PFound = false;
+        LogicCalcu.QFound = false;
         //Count
         LogicCalcu.generateCombinations(calculatorBody.getEquationOnLabel());
-        System.out.println("p " + LogicCalcu.isPFound());
-        System.out.println("q " + LogicCalcu.isQFound());
+        System.out.println("p " + LogicCalcu.PFound);
+        System.out.println("q " + LogicCalcu.QFound);
         //two conditions : if error is met (results will be empty) and if error is not met (result will show)
 
         if(false){ //nanti ini diisi kalok ada eror
@@ -94,17 +108,17 @@ public class HelloController {
             //print out the table
             ArrayList<TableColumn> tableColumns = new ArrayList<>();
 
-            if(LogicCalcu.isPFound() && LogicCalcu.isQFound() && (LogicCalcu.getValueArr().size()==2)){
+            if(LogicCalcu.PFound && LogicCalcu.QFound && (LogicCalcu.getValueArr().size()==4)){
                 TableColumn PCol = new TableColumn("PCol");
                 TableColumn QCol = new TableColumn("QCol");
                 TableColumn resultCol = new TableColumn("resultCol");
                 myTable.getColumns().addAll(PCol, QCol, resultCol);
             }else if(LogicCalcu.getValueArr().size()==2){
-                if(LogicCalcu.isPFound()){
+                if(LogicCalcu.PFound){
                     TableColumn PCol = new TableColumn("PCol");
                     TableColumn resultCol = new TableColumn("resultCol");
                     myTable.getColumns().addAll(PCol, resultCol);
-                }else if(LogicCalcu.isQFound() && LogicCalcu.getValueArr().size()==2){
+                }else if(LogicCalcu.QFound){
                     TableColumn QCol = new TableColumn("QCol");
                     TableColumn resultCol = new TableColumn("resultCol");
                     myTable.getColumns().addAll(QCol, resultCol);
