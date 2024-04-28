@@ -46,7 +46,7 @@ public class HelloController {
         }else if(clickedButton == closingBracketButton){
             calculatorBody.addToEquation(')');
         }else if(clickedButton == enterButton){
-            //not decided yet
+            //enterLabel();
         }else{
             System.out.println("Button is not recognized.");
         }
@@ -70,6 +70,16 @@ public class HelloController {
 
     @FXML
     protected void enterLabel(){
+        //two conditions : if error is met (results will be empty) and if error is not met (result will show)
+
+        if(false){ //nanti ini diisi kalok ada eror
+
+        }else{
+            //change the light (penanda hukum)
+
+            //print out the table
+
+        }
 
     }
 
