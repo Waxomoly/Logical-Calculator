@@ -108,6 +108,94 @@ public class LogicCalcu {
         generateCombinations(input);
     }
     public static void generateCombinations(String input) {
+        // ERROR
+        // input kosong
+        if (input.isEmpty()){
+            System.out.println("Error: Input kosong! Masukkan input");
+            return;
+        }
+
+        // input hanya spasi
+        if (input.trim().isEmpty()) {
+            System.out.println("Error: Input hanya spasi! Masukkan input valid");
+            return;
+        }
+
+        //input karakter tidak sesuai
+        for (char c : input.toCharArray()) {
+            if (!(c == 'P' || c == 'Q' || c == '&' || c == '|' || c== '>'|| c =='<'|| c == '~' || c == '(' || c == ')' || c == ' ' || c == 'F' || c == 'T' || c == '1' || c == '0')) {
+                System.out.println("Error: Invalid character '" + c + "' ");
+                return;
+            }
+        }
+
+        // cek kurung
+        int kurungBuka = 0;
+        int kurungTutup = 0;
+        for (char c : input.toCharArray()) {
+            if (c == '(') {
+                kurungBuka++;
+            } else if (c == ')') {
+                kurungTutup++;
+            }
+        }
+        if (kurungBuka != kurungTutup) {
+            System.out.println("Error: Kesalahan jumlah kurung");
+            return;
+        }
+
+        // cek operand dan operator
+        // operator berturut-turut
+        for (int i = 0; i < input.length() - 1; i++) {
+            char current = input.charAt(i);
+            char next = input.charAt(i + 1);
+            if ((current == '&' || current == '|' || current == '>' || current == '<'  ) &&
+                    (next == '&' || next == '|' || next == '>' || next == '<' || next == ')' )) {
+                System.out.println("Error: operator invalid");
+                return;
+            }
+        }
+
+        // setelah karakter langsung negasi
+        for (int i = 0; i < input.length() - 1; i++) {
+            char current = input.charAt(i);
+            char next = input.charAt(i + 1);
+            if ((current == 'P' || current == 'Q' || current == 'F' || current == 'T' ) &&
+                    (next == '~' || next == '(')) {
+                System.out.println("Error: operator invalid");
+                return;
+            }
+        }
+
+
+        // operator di awal
+        char firstChar = input.charAt(0);
+        if (firstChar == '&' || firstChar == '|' || firstChar == '>' || firstChar == '<') {
+            System.out.println("Error: operator invalid ");
+            return;
+        }
+
+        // operator di akhir
+        char lastChar = input.charAt(input.length() - 1);
+        if (lastChar == '&' || lastChar == '|' || lastChar == '>' || lastChar == '<') {
+            System.out.println("Error: operator invalid ");
+            return;
+        }
+
+        // operator negasi
+        for (int i = 0; i < input.length() - 1; i++) {
+            char current = input.charAt(i);
+            char next = input.charAt(i + 1);
+            if (current == '~' && (next == '&' || next == '|' || next == '>' || next == '<')) {
+                System.out.println("Error: Invalid operand");
+                return;
+            }
+        }
+
+        // double negasi (hilangkan negasinya)
+        while (input.contains("~~")) {
+            input = input.replace("~~", "");
+        }
 
         // Inisialisasi arraylist untuk menyimpan kombinasi yang unik
         ArrayList<ArrayList<Character>> uniqueCombinations = new ArrayList<>();
