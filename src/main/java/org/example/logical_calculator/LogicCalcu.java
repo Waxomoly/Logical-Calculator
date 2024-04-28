@@ -110,6 +110,100 @@ public class LogicCalcu {
     }
     public static void generateCombinations(ArrayList<Character> input) {
 
+        // ERROR
+        // input kosong
+        if (input.isEmpty()){
+            System.out.println("Error: Input kosong! Masukkan input");
+            return;
+        }
+
+        // input hanya spasi
+//        if (input.trim().isEmpty()) {
+//            System.out.println("Error: Input hanya spasi! Masukkan input valid");
+//            return;
+//        }
+
+        //input karakter tidak sesuai
+        for (char c : input) {
+            if (!(c == 'P' || c == 'Q' || c == '&' || c == '|' || c== '>'|| c =='<'|| c == '~' || c == '(' || c == ')' || c == ' ' || c == 'F' || c == 'T' || c == '1' || c == '0')) {
+                System.out.println("Error: Invalid character '" + c + "' ");
+                return;
+            }
+        }
+
+        // cek kurung
+        int kurungBuka = 0;
+        int kurungTutup = 0;
+        for (char c : input) {
+            if (c == '(') {
+                kurungBuka++;
+            } else if (c == ')') {
+                kurungTutup++;
+            }
+        }
+        if (kurungBuka != kurungTutup) {
+            System.out.println("Error: Kesalahan jumlah kurung");
+            return;
+        }
+
+        // cek operand dan operator
+        // operator berturut-turut
+        for (int i = 0; i < input.size() - 1; i++) {
+            char current = input.get(i);
+            char next = input.get(i + 1);
+            if ((current == '&' || current == '|' || current == '>' || current == '<'  ) &&
+                    (next == '&' || next == '|' || next == '>' || next == '<' || next == ')' )) {
+                System.out.println("Error: operator invalid");
+                return;
+            }
+        }
+
+        // setelah karakter langsung negasi
+        for (int i = 0; i < input.size() - 1; i++) {
+            char current = input.get(i);
+            char next = input.get(i + 1);
+            if ((current == 'P' || current == 'Q' || current == 'F' || current == 'T' ) &&
+                    (next == '~' || next == '(')) {
+                System.out.println("Error: operator invalid");
+                return;
+            }
+        }
+
+
+        // operator di awal
+        char firstChar = input.getFirst();
+        if (firstChar == '&' || firstChar == '|' || firstChar == '>' || firstChar == '<') {
+            System.out.println("Error: operator invalid ");
+            return;
+        }
+
+        // operator di akhir
+        char lastChar = input.get(input.size() - 1);
+        if (lastChar == '&' || lastChar == '|' || lastChar == '>' || lastChar == '<') {
+            System.out.println("Error: operator invalid ");
+            return;
+        }
+
+        // operator negasi
+        for (int i = 0; i < input.size() - 1; i++) {
+            char current = input.get(i);
+            char next = input.get(i + 1);
+            if (current == '~' && (next == '&' || next == '|' || next == '>' || next == '<')) {
+                System.out.println("Error: Invalid operand");
+                return;
+            }
+        }
+
+        // double negasi (hilangkan negasinya)
+        for (int i = 0; i < input.size() - 1; i++) {
+            if (input.get(i) == '~' && input.get(i + 1) == '~') {
+                input.remove(i);
+                input.remove(i); // Remove the second '~'
+                i--; // Adjust index to account for removal
+            }
+        }
+
+
         // Inisialisasi arraylist untuk menyimpan kombinasi yang unik
         ArrayList<ArrayList<Character>> uniqueCombinations = new ArrayList<>();
         ArrayList<Character> temp = new ArrayList<>(); // buat simpan input dengan tipe data char

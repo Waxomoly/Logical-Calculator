@@ -5,6 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="529ea731-7e24-4f72-83f3-cb0b680c251f" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/logical_calculator/DataItem.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/logical_calculator/HelloController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/logical_calculator/HelloController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/logical_calculator/LogicCalcu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/logical_calculator/LogicCalcu.java" afterDir="false" />
@@ -15,6 +16,13 @@
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />

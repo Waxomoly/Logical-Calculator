@@ -28,7 +28,7 @@ public class HelloController {
         Button clickedButton = (Button) e.getSource();
 
         if(clickedButton == negasiButton){
-            calculatorBody.addToEquation('¬');
+            calculatorBody.addToEquation('~');
         }else if(clickedButton == andButton){
             calculatorBody.addToEquation('&');
         }else if(clickedButton == orButton){
@@ -70,7 +70,9 @@ public class HelloController {
         StringBuilder stringBuilder = new StringBuilder();
 
         for(char c : calculatorBody.getEquationOnLabel()){
-            if(c == '&'){
+            if(c == '~'){
+                stringBuilder.append('¬');
+            }else if(c == '&'){
                 stringBuilder.append('^');
             }else if(c == '|'){
                 stringBuilder.append('v');
@@ -108,23 +110,45 @@ public class HelloController {
             //print out the table
             ArrayList<TableColumn> tableColumns = new ArrayList<>();
 
-            if(LogicCalcu.PFound && LogicCalcu.QFound && (LogicCalcu.getValueArr().size()==4)){
+            if(LogicCalcu.PFound && LogicCalcu.QFound && (LogicCalcu.getValueArr().size()==4)){ //ada 2 variabel
                 TableColumn PCol = new TableColumn("PCol");
                 TableColumn QCol = new TableColumn("QCol");
                 TableColumn resultCol = new TableColumn("resultCol");
                 myTable.getColumns().addAll(PCol, QCol, resultCol);
-            }else if(LogicCalcu.getValueArr().size()==2){
+
+                ArrayList<Character> currAnswers = LogicCalcu.getValueArr();
+
+                myTable.getItems().add(new DataItem("0", "0", currAnswers.get(0).toString()));
+                myTable.getItems().add(new DataItem("1", "0", currAnswers.get(1).toString()));
+                myTable.getItems().add(new DataItem("0", "1", currAnswers.get(2).toString()));
+                myTable.getItems().add(new DataItem("1", "1", currAnswers.get(3).toString()));
+            }else if(LogicCalcu.getValueArr().size()==2){ //cuma ada 1 variabel (P or Q)
                 if(LogicCalcu.PFound){
                     TableColumn PCol = new TableColumn("PCol");
                     TableColumn resultCol = new TableColumn("resultCol");
                     myTable.getColumns().addAll(PCol, resultCol);
+
+                    ArrayList<Character> currAnswers = LogicCalcu.getValueArr();
+
+                    myTable.getItems().add(new DataItem("0", null, currAnswers.get(0).toString()));
+                    myTable.getItems().add(new DataItem("1", null, currAnswers.get(1).toString()));
                 }else if(LogicCalcu.QFound){
                     TableColumn QCol = new TableColumn("QCol");
                     TableColumn resultCol = new TableColumn("resultCol");
                     myTable.getColumns().addAll(QCol, resultCol);
+
+                    ArrayList<Character> currAnswers = LogicCalcu.getValueArr();
+
+                    myTable.getItems().add(new DataItem(null, "0", currAnswers.get(0).toString()));
+                    myTable.getItems().add(new DataItem(null, "1", currAnswers.get(1).toString()));
                 }else{
                     System.out.println("Something went wrong. (HelloController.java -> enterLabel() [1])");
                 }
+            }else if(LogicCalcu.getValueArr().size()==1){ //cuma ada variabel true dan/atau false
+                TableColumn answer = new TableColumn("Single Answer");
+                myTable.getColumns().addAll(answer);
+                //add data to table
+                myTable.getItems().add(new DataItem(null, null, LogicCalcu.getValueArr().getFirst().toString()));
             }else{
                 System.out.println("Something went wrong. (HelloController.java -> enterLabel() [2])");
             }
