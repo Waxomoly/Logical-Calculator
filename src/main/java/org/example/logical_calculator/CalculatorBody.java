@@ -27,4 +27,5 @@ public class CalculatorBody {
     public void clear(){
         this.equationOnLabel = new ArrayList<>();
     }
+
 }
