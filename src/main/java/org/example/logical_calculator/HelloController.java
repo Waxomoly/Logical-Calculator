@@ -130,6 +130,7 @@ public class HelloController {
         if (LogicCalcu.isErrorFound()) { // Nanti ini diisi kalok ada eror
             initialize();
             errorLabel.setText(LogicCalcu.errorString);
+            errorLabel.setTextFill(Color.rgb(255, 0, 0));
             System.out.println(LogicCalcu.errorString);
         } else {
 
@@ -154,6 +155,7 @@ public class HelloController {
 
             //set error message text
             errorLabel.setText(LogicCalcu.errorString);
+            errorLabel.setTextFill(Color.rgb(0, 0, 0));
 
             // Create an ObservableList to store the data items
             ObservableList<DataItem> dataItems = FXCollections.observableArrayList();
@@ -246,6 +248,7 @@ public class HelloController {
         kontingensiLightStatus.setFill(wrongLightStatus);
 
         errorLabel.setText("You're Good :)");
+        errorLabel.setTextFill(Color.rgb(0, 0, 0));
     }
 
 
