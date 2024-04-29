@@ -163,8 +163,8 @@ public class HelloController {
                 ArrayList<Character> currAnswers = LogicCalcu.getValueArr();
 
                 dataItems.add(new DataItem("0", "0", currAnswers.get(0).toString()));
-                dataItems.add(new DataItem("1", "0", currAnswers.get(1).toString()));
-                dataItems.add(new DataItem("0", "1", currAnswers.get(2).toString()));
+                dataItems.add(new DataItem("0", "1", currAnswers.get(1).toString()));
+                dataItems.add(new DataItem("1", "0", currAnswers.get(2).toString()));
                 dataItems.add(new DataItem("1", "1", currAnswers.get(3).toString()));
             } else if (LogicCalcu.getValueArr().size() == 2) { // Cuma ada 1 variabel (P or Q)
                 if (LogicCalcu.PFound) {
