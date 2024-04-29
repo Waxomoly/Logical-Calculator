@@ -103,12 +103,6 @@ public class LogicCalcu {
             }
         }
 
-        //input tidak lengkap
-        if (input.split("\\s+").length <= 2) {
-            System.out.println("Error: Input tidak lengkap! Masukkan input valid");
-            return;
-        }
-
         // cek kurung
         int kurungBuka = 0;
         int kurungTutup = 0;
@@ -168,47 +162,55 @@ public class LogicCalcu {
         //ERROR : kurung aneh
         char[] arrKurung = input.toCharArray();
         Stack<Character> stack = new Stack<>();
-        boolean countingInsideBrackets = false, beforeOpenBracket = true, afterCloseBracket = false;
-        int insideCount = 0, outsideCount = 0;
-        char prevChar = 0;
+        boolean countingInsideBrackets = false;
+        int insideCount = 0, outsideCount = 0, firstCount = 0;
+        char prevChar = 0, prevPrevChar = 0;
+
         for (char x : arrKurung) {
-            if (beforeOpenBracket && x != '(') insideCount++; //count sebelum kurung buka, untuk cek valid atau tidak
+            if (countingInsideBrackets) insideCount++; //untuk count inside kurung ada berapa character
             if (x == '(' && !stack.isEmpty()) {
-                if (insideCount < 2 && prevChar != '~' && insideCount!=0) {
-                    System.out.println("Error: Operasi dalam kurung tidak lengkap");
-                    return;
-                }
+                //ini coba hapus aj
+//                if (insideCount < 2 && prevChar != '~' && insideCount!=0) {
+//                    System.out.println("Error: Operasi dalam kurung TIDAK lengkap");
+//                    return;
+//                }
                 stack.push(x);
                 insideCount = 0;
                 continue;
             }
-            if (x == ')' && !stack.isEmpty()) {
-                if (outsideCount < 2 && outsideCount != 0) {
-                    System.out.println("Error: Operasi dalam kurung tidak lengkap");
-                    return;
-                }
+            if (x == ')' && !stack.isEmpty()) {   //CEK SBLM KURUNG TUTUPa
+//                if (insideCount <= 2 && prevChar != 'T' && prevChar != 'F' && prevChar != 'P' && prevChar != 'Q') {
+//                    System.out.println("Error: Operasi dalam kurung tidak lengkap");
+//                    return;
+//                }
                 stack.pop();
-                outsideCount = 0; //insideCount
                 continue;
             }
-            if (countingInsideBrackets) insideCount++; //untuk count inside kurung ada berapa hal
-//            if (afterCloseBracket) outsideCount++;
+
             if (x == '(') {
                 //error kyk yang di line 175  if (x == '(' && !stack.isEmpty()), tapi ini untuk yang dari awal TIDAK ada kurung buka (arr[1] = '(')
-                if (beforeOpenBracket && insideCount < 2 && prevChar != '~' && insideCount != 0) {
-                    System.out.println("Error: Operasi tidak lengkap");
-                    return;
+                if (insideCount == 1) {
+                    if ((prevChar == '&' || prevChar == '|' || prevChar == '>' || prevChar == '<') && prevPrevChar == ')') {
+                        continue;
+                    } else if (prevChar == '~') {
+                        continue;
+                    } else {
+                        System.out.println("ERROR");
+                        return;
+                    }
+                } else if (insideCount > 1) {
+                    if (prevChar == '~' && (prevPrevChar == '&' || prevPrevChar == '|' || prevPrevChar == '>' || prevPrevChar == '<')) {
+                        continue;
+                    }
                 }
                 //error klo sebelum kurung '(' adanya bukan operasi, malah variabel dgn nilai true/false
                 if (prevChar == 'P' || prevChar == 'Q' || prevChar == 'F' || prevChar == 'T') {
                     System.out.println("Error: Operasi tidak valid");
                     return;
                 }
-                beforeOpenBracket = false;
                 stack.push(x);
                 countingInsideBrackets = true;
             } else if (x == ')') {
-                afterCloseBracket = true;
                 //cek kurung kosong atau tidak, bisa juga cek kurung yang klo ternyata yang dluan kurung tutup ")"
                 if (stack.empty()) {
                     System.out.println("Error: Kurung bermasalah");
@@ -218,22 +220,23 @@ public class LogicCalcu {
                 if (stack.peek() != '(') {
                     System.out.println("Error: Kurung bermasalah");
                     return;
-                }
-
-                if(stack.peek() == '(') {
+                } else {
                     stack.pop();
                     insideCount = 0;
-                    outsideCount = 0;
                 }
-                outsideCount++;
             }
+            prevPrevChar = prevChar;
             prevChar = x;
         }
         if (!stack.isEmpty()) {
             System.out.println("Error: Kurung bermasalah");
             return;
         }
-
+        if (!countingOutsideBrackets(input, kurungTutup)) {
+            System.out.println("Error: Invalid operator");
+            return;
+        }
+        
         //-----------------------------------------------
         int totalCombinations = getTotalCombinations(input);
 
@@ -373,6 +376,53 @@ public class LogicCalcu {
             if (existingCombination.equals(combination)) {
                 return false;
             }
+        }
+        return true;
+    }
+
+    //cek setelah kurung tutup ada '~' atau isinya cuma 1
+    public static boolean countingOutsideBrackets(String input, int kurungTutup) {
+        char[] arrKurung = input.toCharArray();
+        boolean counting = false, last = false;
+        int count = 0, lastCount = 0;
+        char prevChar = 0;
+
+        for (int i = 0; i < arrKurung.length; i++) {
+            char x = arrKurung[i];
+            if (last) {
+                lastCount++;
+                if (lastCount == 1 && arrKurung[arrKurung.length-1] == x) {
+                    return false;
+                } else {
+                    //kalau setelah kurung tutup, true skrg di di lastCount yang ke 2 atau lebih,
+                    //cek klo yg sebelum karakter di count ke-2 ini, operator atau tidak
+                    //klo operator, biarin aje. Klo negasi, pasti salah
+                    if (prevChar == 'T' || prevChar == 'F' || prevChar=='~' || prevChar=='P' || prevChar=='Q') {
+                        return false;
+                    }
+                }
+            }
+
+            if (x == ')') {
+                if (count == 1) {
+                    return false;
+                } else {
+                    //ini sama kyk logic sebelumnya, bedanya ini cek posisi tergantung posisinya kurung tutup
+                    char test = arrKurung[i-count];
+                    if (test == 'T' || test == 'F' || test=='~' || test=='P' || test=='Q') {
+                        return false;
+                    }
+                }
+                if (kurungTutup == 1) {
+                    last = true;
+                }
+                kurungTutup--;
+                count = 0;
+                counting = true;
+                continue;
+            }
+            if (counting) count++;
+            prevChar = x;
         }
         return true;
     }
