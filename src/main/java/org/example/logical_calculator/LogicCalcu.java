@@ -225,14 +225,14 @@ public class LogicCalcu {
     public static boolean hasError(ArrayList<Character> input){
         // input kosong
         if (input.isEmpty()){
-            errorString = "Error: Input kosong! Masukkan input";
+            errorString = "Input kosong! Masukkan input";
             return true;
         }
 
         //input karakter tidak sesuai
         for (char c : input) {
             if (!(c == 'P' || c == 'Q' || c == '&' || c == '|' || c== '>'|| c =='<'|| c == '~' || c == '(' || c == ')' || c == ' ' || c == 'F' || c == 'T' || c == '1' || c == '0')) {
-                errorString = "Error: Invalid character '" + c + "' ";
+                errorString = "Invalid character '" + c + "' ";
                 return true;
             }
         }
@@ -248,7 +248,7 @@ public class LogicCalcu {
             }
         }
         if (kurungBuka != kurungTutup) {
-            errorString = "Error: Kesalahan jumlah kurung";
+            errorString = "Tanda kurung tidak lengkap/benar";
             return true;
         }
 
@@ -259,7 +259,7 @@ public class LogicCalcu {
             char next = input.get(i + 1);
             if ((current == '&' || current == '|' || current == '>' || current == '<'  ) &&
                     (next == '&' || next == '|' || next == '>' || next == '<' || next == ')' )) {
-                errorString = "Error: operator invalid";
+                errorString = "Operator invalid";
                 return true;
             }
         }
@@ -269,7 +269,7 @@ public class LogicCalcu {
             char current = input.get(i);
             char next = input.get(i + 1);
             if ((current == 'P' || current == 'Q' || current == 'T' || current == 'F') && (next == 'P' || next == 'Q' || next == 'T' || next == 'F')) {
-                errorString = "Error: tidak ada operator setelah variabel";
+                errorString = "Kekurangan operator";
                 return true;
             }
         }
@@ -280,7 +280,7 @@ public class LogicCalcu {
             char next = input.get(i + 1);
             if ((current == 'P' || current == 'Q' || current == 'F' || current == 'T' ) &&
                     (next == '~' || next == '(')) {
-                errorString = "Error: operator invalid";
+                errorString = "Operator invalid";
                 return true;
             }
         }
@@ -288,14 +288,14 @@ public class LogicCalcu {
         // operator di awal
         char firstChar = input.get(0);
         if (firstChar == '&' || firstChar == '|' || firstChar == '>' || firstChar == '<') {
-            errorString = "Error: operator invalid ";
+            errorString = "Operator invalid ";
             return true;
         }
 
         // operator di akhir
         char lastChar = input.get(input.size() - 1);
         if (lastChar == '&' || lastChar == '|' || lastChar == '>' || lastChar == '<') {
-            errorString = "Error: operator invalid ";
+            errorString = "Operator invalid ";
             return true;
         }
 
@@ -304,7 +304,7 @@ public class LogicCalcu {
             char current = input.get(i);
             char next = input.get(i + 1);
             if (current == '~' && (next == '&' || next == '|' || next == '>' || next == '<')) {
-                errorString = "Error: Invalid operand";
+                errorString = "Operator invalid";
                 return true;
             }
         }
@@ -320,12 +320,12 @@ public class LogicCalcu {
         }
         // jumlah negasi ganjil
         if (inputString.equalsIgnoreCase("~")) {
-            errorString = "Error: tidak ada variabel";
+            errorString = "Tidak ada variabel";
             return true;
         }
         // jumlah negasi genap
         if (inputString.isEmpty()) {
-            errorString = "Error: tidak ada variabel";
+            errorString = "Tidak ada variabel";
             return true;
         }
         // Convert the modified String back to ArrayList<Character>
@@ -351,7 +351,7 @@ public class LogicCalcu {
             }
             if (x == ')' && !stack.isEmpty()) {   //CEK SBLM KURUNG TUTUP
                 if (insideCount <= 2 && prevChar != 'T' && prevChar != 'F' && prevChar != 'P' && prevChar != 'Q') {
-                    errorString="Error: Operasi dalam kurung tidak lengkap";
+                    errorString="Operasi dalam kurung tidak lengkap";
                     return true;
                 }
                 stack.pop();
@@ -364,7 +364,7 @@ public class LogicCalcu {
                     } else if (prevChar == '~') {
                         continue;
                     } else {
-                        errorString="Error: Kurung bermasalah";
+                        errorString="Tanda kurung tidak lengkap/benar";
                         return true;
                     }
                 } else if (insideCount > 1) {
@@ -374,19 +374,19 @@ public class LogicCalcu {
                 }
                 //error klo sebelum kurung '(' adanya bukan operasi, malah variabel dgn nilai true/false
                 if (prevChar == 'P' || prevChar == 'Q' || prevChar == 'F' || prevChar == 'T') {
-                    errorString="Error: Operasi tidak valid";
+                    errorString="Kekurangan operator";
                     return true;
                 }
                 stack.push(x);
                 countingInsideBrackets = true;
             } else if (x == ')') {
                 if (stack.empty()) {
-                    errorString="Error: Kurung bermasalah";
+                    errorString="Tanda kurung tidak lengkap/benar";
                     return true;
                 }
                 //cek di dalam kurung jumlah operasi dan operand tidak kurang dari 2
                 if (stack.peek() != '(') {
-                    errorString="Error: Kurung bermasalah";
+                    errorString="Tanda kurung tidak lengkap/benar";
                     return true;
                 } else {
                     stack.pop();
@@ -397,13 +397,13 @@ public class LogicCalcu {
             prevChar = x;
         }
         if (!stack.isEmpty()) {
-            errorString="Error: Kurung bermasalah";
+            errorString="Tanda kurung tidak lengkap/benar";
             return true;
         }
 
         //error ngecek kesalah setelah tutup kurung ')'
         if (countingOutsideBrackets(input, kurungTutup)) {
-            errorString = "Error: Operator invalid";
+            errorString = "Operator invalid";
             return true;
         }
         return false;
