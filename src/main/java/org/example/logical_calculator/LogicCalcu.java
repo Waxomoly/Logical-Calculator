@@ -1,6 +1,7 @@
 package org.example.logical_calculator;
 
 import java.util.*;
+import java.util.ArrayList;
 
 public class LogicCalcu {
     //Variabel Found Status
@@ -168,7 +169,8 @@ public class LogicCalcu {
 //            System.out.println();
 //        }
 
-        int count = 0;
+        int count = 0, valueArrSize = 0;
+        boolean hasilAkhir = true;
         // Mangambil kombinasi unik dan menghitung hasil evaluasi
         valueArr = new ArrayList<>(); // buat simpan nilai P dan Q, serta hasil operasi
         for (ArrayList<Character> combination : uniqueCombinations) {
@@ -192,11 +194,15 @@ public class LogicCalcu {
             // coba print
             for (char ch : valueArr) {
                 System.out.print(ch + " ");
+                if (ch == '0') {
+                    hasilAkhir = false;
+                }
+                valueArrSize++;
             }
             System.out.println();
         }
         // Buat message --> menentukan tautologi, kontradiksi, kontingensi
-        if(count == 4) {
+        if(count == 4 || (valueArrSize <= 3 && hasilAkhir)) {
             System.out.println("Tautologi");
             //below buat UI
             tautologiStatus = true;
@@ -279,6 +285,16 @@ public class LogicCalcu {
             }
         }
 
+        // semuanya variabel, tidak ada operator
+        for (int i = 0; i < input.size() - 1; i++) {
+            char current = input.get(i);
+            char next = input.get(i + 1);
+            if ((current == 'P' || current == 'Q' || current == 'T' || current == 'F') && (next == 'P' || next == 'Q' || next == 'T' || next == 'F')) {
+                errorString = "Error: tidak ada operator setelah variabel";
+                return true;
+            }
+        }
+
         // setelah karakter langsung negasi
         for (int i = 0; i < input.size() - 1; i++) {
             char current = input.get(i);
@@ -292,7 +308,7 @@ public class LogicCalcu {
 
 
         // operator di awal
-        char firstChar = input.getFirst();
+        char firstChar = input.get(0);
         if (firstChar == '&' || firstChar == '|' || firstChar == '>' || firstChar == '<') {
             errorString = "Error: operator invalid ";
             return true;
@@ -315,6 +331,167 @@ public class LogicCalcu {
             }
         }
 
+        //double negasi (hilangkan negasinya)
+        ArrayList<Character> newArr = (ArrayList<Character>)input.clone();
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Character character : newArr) {
+            stringBuilder.append(character);
+        }
+        String inputString = stringBuilder.toString();
+        // Remove all occurrences of "~~" from the inputString
+        while (inputString.contains("~~")) {
+            inputString = inputString.replace("~~", "");
+        }
+        // jumlah negasi ganjil
+        if (inputString.equalsIgnoreCase("~")) {
+//            input.clear(); //bersihin dan masukin kyk biasa
+//            for (char c : inputString.toCharArray()) {
+//                input.add(c);
+//            }
+            errorString = "Error: tidak ada variabel";
+            return true;
+        }
+        // jumlah negasi genap
+        if (inputString.isEmpty()) {
+//            input.clear(); //bersihin dan masukin kyk biasa
+//            for (char c : inputString.toCharArray()) {
+//                input.add(c);
+//            }
+            errorString = "Error: tidak ada variabel";
+            return true;
+        }
+        // Convert the modified String back to ArrayList<Character>
+//        input.clear();
+//        for (char c : input) {
+//            input.add(c);
+//        }
+
+        //ERROR : kurung aneh
+        Stack<Character> stack = new Stack<>();
+        boolean countingInsideBrackets = false;
+        int insideCount = 0;
+        char prevChar = 0, prevPrevChar = 0;
+
+        for (char x : input) {
+            if (countingInsideBrackets) insideCount++; //untuk count inside kurung ada berapa character
+            if (x == '(' && !stack.isEmpty()) {
+                //ini coba hapus aj
+//                if (insideCount < 2 && prevChar != '~' && insideCount!=0) {
+//                    System.out.println("Error: Operasi dalam kurung TIDAK lengkap");
+//                    return;
+//                }
+                stack.push(x);
+                insideCount = 0;
+                continue;
+            }
+            if (x == ')' && !stack.isEmpty()) {   //CEK SBLM KURUNG TUTUPa
+                if (insideCount <= 2 && prevChar != 'T' && prevChar != 'F' && prevChar != 'P' && prevChar != 'Q') {
+                    errorString="Error: Operasi dalam kurung tidak lengkap";
+                    return true;
+                }
+                stack.pop();
+                continue;
+            }
+
+            if (x == '(') {
+                //error kyk yang di line 175  if (x == '(' && !stack.isEmpty()), tapi ini untuk yang dari awal TIDAK ada kurung buka (arr[1] = '(')
+                if (insideCount == 1) {
+                    if ((prevChar == '&' || prevChar == '|' || prevChar == '>' || prevChar == '<') && prevPrevChar == ')') {
+                        continue;
+                    } else if (prevChar == '~') {
+                        continue;
+                    } else {
+                        errorString="Error: Kurung bermasalah";
+                        return true;
+                    }
+                } else if (insideCount > 1) {
+                    if (prevChar == '~' && (prevPrevChar == '&' || prevPrevChar == '|' || prevPrevChar == '>' || prevPrevChar == '<')) {
+                        continue;
+                    }
+                }
+                //error klo sebelum kurung '(' adanya bukan operasi, malah variabel dgn nilai true/false
+                if (prevChar == 'P' || prevChar == 'Q' || prevChar == 'F' || prevChar == 'T') {
+                    errorString="Error: Operasi tidak valid";
+                    return true;
+                }
+                stack.push(x);
+                countingInsideBrackets = true;
+            } else if (x == ')') {
+                //cek kurung kosong atau tidak, bisa juga cek kurung yang klo ternyata yang dluan kurung tutup ")"
+                if (insideCount <= 1) {
+
+                }
+                if (stack.empty()) {
+                    errorString="Error: Kurung bermasalah";
+                    return true;
+                }
+                //cek di dalam kurung jumlah operasi dan operand tidak kurang dari 2
+                if (stack.peek() != '(') {
+                    errorString="Error: Kurung bermasalah";
+                    return true;
+                } else {
+                    stack.pop();
+                    insideCount = 0;
+                }
+            }
+            prevPrevChar = prevChar;
+            prevChar = x;
+        }
+        if (!stack.isEmpty()) {
+            errorString="Error: Kurung bermasalah";
+            return true;
+        }
+
+        //error ngecek kesalah setelah tutup kurung ')'
+        if (countingOutsideBrackets(input, kurungTutup)) {
+            errorString = "Error: Operator invalid";
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean countingOutsideBrackets(ArrayList<Character> input, int kurungTutup) {
+        boolean counting = false, last = false;
+        int count = 0, lastCount = 0;
+        char prevChar = 0;
+
+        for (int i = 0; i < input.size(); i++) {
+            char x = input.get(i);
+            if (last) {
+                lastCount++;
+                if (lastCount == 1 && input.get(input.size()-1) == x) {
+                    return true;
+                } else {
+                    //kalau setelah kurung tutup, true skrg di di lastCount yang ke 2 atau lebih,
+                    //cek klo yg sebelum karakter di count ke-2 ini, operator atau tidak
+                    //klo operator, biarin aje. Klo negasi, pasti salah
+                    if (prevChar == 'T' || prevChar == 'F' || prevChar=='~' || prevChar=='P' || prevChar=='Q') {
+                        return true;
+                    }
+                }
+            }
+
+            if (x == ')') {
+                if (count == 1) {
+                    return true;
+                } else {
+                    //ini sama kyk logic sebelumnya, bedanya ini cek posisi tergantung posisinya kurung tutup
+                    char test = input.get(i-count);
+                    if (test == 'T' || test == 'F' || test=='~' || test=='P' || test=='Q') {
+                        return true;
+                    }
+                }
+                if (kurungTutup == 1) {
+                    last = true;
+                }
+                kurungTutup--;
+                count = 0;
+                counting = true;
+                continue;
+            }
+            if (counting) count++;
+            prevChar = x;
+        }
         return false;
     }
 }
