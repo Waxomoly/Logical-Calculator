@@ -110,14 +110,8 @@ public class LogicCalcu {
     }
 
 
-    public static void main(String[] args) {
-//        Scanner sc = new Scanner(System.in);
-//        System.out.println("Enter the string:");
-//        String input = sc.nextLine();
-//        generateCombinations(input);
-    }
+    public static void main(String[] args) {}
     public static void generateCombinations(ArrayList<Character> input) {
-
         //initialize error message
         errorString = "You're Good :)";
 
@@ -126,7 +120,6 @@ public class LogicCalcu {
             System.out.println("ma-----------------------------");
             return;
         }
-
 
         // Inisialisasi arraylist untuk menyimpan kombinasi yang unik
         ArrayList<ArrayList<Character>> uniqueCombinations = new ArrayList<>();
@@ -162,12 +155,6 @@ public class LogicCalcu {
                 }
             }
         }
-//        for (ArrayList<Character> combination : uniqueCombinations) {
-//            for (char ch : combination) {
-//                System.out.print(ch + " ");
-//            }
-//            System.out.println();
-//        }
 
         int count = 0, valueArrSize = 0;
         boolean hasilAkhir = true;
@@ -236,19 +223,11 @@ public class LogicCalcu {
 
     //check for errors
     public static boolean hasError(ArrayList<Character> input){
-        // ERROR
-
         // input kosong
         if (input.isEmpty()){
             errorString = "Error: Input kosong! Masukkan input";
             return true;
         }
-
-        // input hanya spasi
-//        if (input.trim().isEmpty()) {
-//            System.out.println("Error: Input hanya spasi! Masukkan input valid");
-//            return;
-//        }
 
         //input karakter tidak sesuai
         for (char c : input) {
@@ -306,7 +285,6 @@ public class LogicCalcu {
             }
         }
 
-
         // operator di awal
         char firstChar = input.get(0);
         if (firstChar == '&' || firstChar == '|' || firstChar == '>' || firstChar == '<') {
@@ -332,39 +310,31 @@ public class LogicCalcu {
         }
 
         //double negasi (hilangkan negasinya)
-        ArrayList<Character> newArr = (ArrayList<Character>)input.clone();
         StringBuilder stringBuilder = new StringBuilder();
-        for (Character character : newArr) {
+        for (Character character : input) {
             stringBuilder.append(character);
         }
         String inputString = stringBuilder.toString();
-        // Remove all occurrences of "~~" from the inputString
         while (inputString.contains("~~")) {
             inputString = inputString.replace("~~", "");
         }
         // jumlah negasi ganjil
         if (inputString.equalsIgnoreCase("~")) {
-//            input.clear(); //bersihin dan masukin kyk biasa
-//            for (char c : inputString.toCharArray()) {
-//                input.add(c);
-//            }
             errorString = "Error: tidak ada variabel";
             return true;
         }
         // jumlah negasi genap
         if (inputString.isEmpty()) {
-//            input.clear(); //bersihin dan masukin kyk biasa
-//            for (char c : inputString.toCharArray()) {
-//                input.add(c);
-//            }
             errorString = "Error: tidak ada variabel";
             return true;
         }
         // Convert the modified String back to ArrayList<Character>
-//        input.clear();
-//        for (char c : input) {
-//            input.add(c);
-//        }
+        input.clear();
+        char[] charArray = inputString.toCharArray();
+        for (char c : charArray) {
+            input.add(c);
+        }
+        System.out.println(input);
 
         //ERROR : kurung aneh
         Stack<Character> stack = new Stack<>();
@@ -375,16 +345,11 @@ public class LogicCalcu {
         for (char x : input) {
             if (countingInsideBrackets) insideCount++; //untuk count inside kurung ada berapa character
             if (x == '(' && !stack.isEmpty()) {
-                //ini coba hapus aj
-//                if (insideCount < 2 && prevChar != '~' && insideCount!=0) {
-//                    System.out.println("Error: Operasi dalam kurung TIDAK lengkap");
-//                    return;
-//                }
                 stack.push(x);
                 insideCount = 0;
                 continue;
             }
-            if (x == ')' && !stack.isEmpty()) {   //CEK SBLM KURUNG TUTUPa
+            if (x == ')' && !stack.isEmpty()) {   //CEK SBLM KURUNG TUTUP
                 if (insideCount <= 2 && prevChar != 'T' && prevChar != 'F' && prevChar != 'P' && prevChar != 'Q') {
                     errorString="Error: Operasi dalam kurung tidak lengkap";
                     return true;
@@ -392,9 +357,7 @@ public class LogicCalcu {
                 stack.pop();
                 continue;
             }
-
             if (x == '(') {
-                //error kyk yang di line 175  if (x == '(' && !stack.isEmpty()), tapi ini untuk yang dari awal TIDAK ada kurung buka (arr[1] = '(')
                 if (insideCount == 1) {
                     if ((prevChar == '&' || prevChar == '|' || prevChar == '>' || prevChar == '<') && prevPrevChar == ')') {
                         continue;
@@ -417,10 +380,6 @@ public class LogicCalcu {
                 stack.push(x);
                 countingInsideBrackets = true;
             } else if (x == ')') {
-                //cek kurung kosong atau tidak, bisa juga cek kurung yang klo ternyata yang dluan kurung tutup ")"
-                if (insideCount <= 1) {
-
-                }
                 if (stack.empty()) {
                     errorString="Error: Kurung bermasalah";
                     return true;
@@ -464,7 +423,6 @@ public class LogicCalcu {
                 } else {
                     //kalau setelah kurung tutup, true skrg di di lastCount yang ke 2 atau lebih,
                     //cek klo yg sebelum karakter di count ke-2 ini, operator atau tidak
-                    //klo operator, biarin aje. Klo negasi, pasti salah
                     if (prevChar == 'T' || prevChar == 'F' || prevChar=='~' || prevChar=='P' || prevChar=='Q') {
                         return true;
                     }

@@ -122,7 +122,7 @@ public class HelloController {
         LogicCalcu.PFound = false;
         LogicCalcu.QFound = false;
         // Count
-        LogicCalcu.generateCombinations(calculatorBody.getEquationOnLabel());
+        LogicCalcu.generateCombinations(new ArrayList<>(calculatorBody.getEquationOnLabel()));
         System.out.println("p " + LogicCalcu.PFound);
         System.out.println("q " + LogicCalcu.QFound);
         // Two conditions: if error is met (results will be empty) and if error is not met (result will show)
@@ -187,6 +187,7 @@ public class HelloController {
             }
 
             // Create TableColumn objects only for the desired columns and add them to the table
+            System.out.println(LogicCalcu.getValueArr().size());
             if (LogicCalcu.PFound && LogicCalcu.QFound && (LogicCalcu.getValueArr().size() == 4)) { // Ada 2 variabel
                 TableColumn<DataItem, String> PCol = new TableColumn<>("PCol");
                 PCol.setCellValueFactory(new PropertyValueFactory<>("pValue"));
