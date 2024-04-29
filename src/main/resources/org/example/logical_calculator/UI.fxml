@@ -37,6 +37,7 @@
                                  <Font name="System Bold" size="12.0" />
                               </font>
                            </Label>
+                           <Label fx:id="errorLabel" layoutX="21.0" layoutY="31.0" text="You're Good :)" />
                         </children>
                      </AnchorPane>
                   </children></AnchorPane>
@@ -45,7 +46,7 @@
             <children>
                <ScrollPane layoutX="45.0" layoutY="43.0" prefHeight="92.0" prefWidth="310.0">
                   <content>
-                     <Label fx:id="equationLabel" maxWidth="1.7976931348623157E308" minHeight="50.0" minWidth="300.0" prefHeight="79.0" prefWidth="364.0" style="-fx-background-color: #d6d6d6;">
+                     <Label fx:id="equationLabel" maxWidth="1.7976931348623157E308" minHeight="50.0" minWidth="300.0" prefHeight="79.0" prefWidth="908.0" style="-fx-background-color: #d6d6d6;">
                         <font>
                            <Font size="27.0" />
                         </font>

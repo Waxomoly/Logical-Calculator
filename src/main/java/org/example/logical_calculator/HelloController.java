@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 public class HelloController {
     @FXML
-    private Label equationLabel;
+    private Label equationLabel, errorLabel;
 
     @FXML
     private Button negasiButton, andButton, orButton, implicationButton, bimplicationButton, PButton, QButton, fButton, tButton, backspaceButton, clearButton, openBracketButton, closingBracketButton, enterButton;
@@ -23,6 +23,9 @@ public class HelloController {
 
     @FXML
     private Circle tautologiLightStatus, kontradiksiLightStatus, kontingensiLightStatus;
+
+    Color wrongLightStatus = Color.rgb(255, 31, 31);
+    Color rightLightStatus = Color.rgb(38, 255, 31);
 
     private CalculatorBody calculatorBody = new CalculatorBody();
     private LogicCalcu logicCalcu = new LogicCalcu();
@@ -34,30 +37,43 @@ public class HelloController {
 
         if(clickedButton == negasiButton){
             calculatorBody.addToEquation('~');
+            initialize();
         }else if(clickedButton == andButton){
             calculatorBody.addToEquation('&');
+            initialize();
         }else if(clickedButton == orButton){
             calculatorBody.addToEquation('|');
+            initialize();
         }else if(clickedButton == implicationButton){
             calculatorBody.addToEquation('>');
+            initialize();
         }else if(clickedButton == bimplicationButton){
             calculatorBody.addToEquation('<');
+            initialize();
         }else if(clickedButton == PButton){
             calculatorBody.addToEquation('P');
+            initialize();
         }else if(clickedButton == QButton){
             calculatorBody.addToEquation('Q');
+            initialize();
         }else if(clickedButton == fButton){
             calculatorBody.addToEquation('F');
+            initialize();
         }else if(clickedButton == tButton){
             calculatorBody.addToEquation('T');
+            initialize();
         }else if(clickedButton == backspaceButton){
             calculatorBody.backspace();
+            initialize();
         }else if(clickedButton == clearButton){
             calculatorBody.clear();
+            initialize();
         }else if(clickedButton == openBracketButton){
             calculatorBody.addToEquation('(');
+            initialize();
         }else if(clickedButton == closingBracketButton){
             calculatorBody.addToEquation(')');
+            initialize();
         }else if(clickedButton == enterButton){
             enterLabel();
         }else{
@@ -74,8 +90,13 @@ public class HelloController {
         //Use Stringbuilder
         StringBuilder stringBuilder = new StringBuilder();
 
-        for(char c : calculatorBody.getEquationOnLabel()){
-            if(c == '~'){
+        for(char c : calculatorBody.getEquationOnLabel()) {
+
+            if(c == '&'){
+                stringBuilder.append('∧');
+            }else if(c == '|'){
+                stringBuilder.append('∨');
+            }else if(c == '~'){
                 stringBuilder.append('¬');
             }else if(c == '&'){
                 stringBuilder.append('^');
@@ -106,11 +127,33 @@ public class HelloController {
         System.out.println("q " + LogicCalcu.QFound);
         // Two conditions: if error is met (results will be empty) and if error is not met (result will show)
 
-        if (false) { // Nanti ini diisi kalok ada eror
-
+        if (LogicCalcu.isErrorFound()) { // Nanti ini diisi kalok ada eror
+            initialize();
+            errorLabel.setText(LogicCalcu.errorString);
+            System.out.println(LogicCalcu.errorString);
         } else {
-            // Change the light (penanda hukum)
 
+            // Change the light (penanda hukum)
+            if(LogicCalcu.isTautologiStatus()){
+                tautologiLightStatus.setFill(rightLightStatus);
+                kontradiksiLightStatus.setFill(wrongLightStatus);
+                kontingensiLightStatus.setFill(wrongLightStatus);
+            }else if(LogicCalcu.isKontradiksiStatus()){
+                tautologiLightStatus.setFill(wrongLightStatus);
+                kontradiksiLightStatus.setFill(rightLightStatus);
+                kontingensiLightStatus.setFill(wrongLightStatus);
+            }else if(LogicCalcu.isKontingensiStatus()){
+                tautologiLightStatus.setFill(wrongLightStatus);
+                kontradiksiLightStatus.setFill(wrongLightStatus);
+                kontingensiLightStatus.setFill(rightLightStatus);
+            }else{
+                tautologiLightStatus.setFill(wrongLightStatus);
+                kontradiksiLightStatus.setFill(wrongLightStatus);
+                kontingensiLightStatus.setFill(wrongLightStatus);
+            }
+
+            //set error message text
+            errorLabel.setText(LogicCalcu.errorString);
 
             // Create an ObservableList to store the data items
             ObservableList<DataItem> dataItems = FXCollections.observableArrayList();
@@ -187,33 +230,22 @@ public class HelloController {
             myTable.setItems(dataItems);
 
 
-            Color wrongLightStatus = Color.rgb(255, 31, 31);
-            Color rightLightStatus = Color.rgb(38, 255, 31);
-
-            //SETTINGS FOR LIGHTS
-            if(LogicCalcu.isTautologiStatus()){
-                tautologiLightStatus.setFill(rightLightStatus);
-                kontradiksiLightStatus.setFill(wrongLightStatus);
-                kontingensiLightStatus.setFill(wrongLightStatus);
-            }else if(LogicCalcu.isKontradiksiStatus()){
-                tautologiLightStatus.setFill(wrongLightStatus);
-                kontradiksiLightStatus.setFill(rightLightStatus);
-                kontingensiLightStatus.setFill(wrongLightStatus);
-            }else if(LogicCalcu.isKontingensiStatus()){
-                tautologiLightStatus.setFill(wrongLightStatus);
-                kontradiksiLightStatus.setFill(wrongLightStatus);
-                kontingensiLightStatus.setFill(rightLightStatus);
-            }else{
-                tautologiLightStatus.setFill(wrongLightStatus);
-                kontradiksiLightStatus.setFill(wrongLightStatus);
-                kontingensiLightStatus.setFill(wrongLightStatus);
-            }
-
         }
     }
 
 
+    @FXML
+    public void initialize(){
+        // Clear Table
+        myTable.getColumns().clear();
 
+        //reset all law lights
+        tautologiLightStatus.setFill(wrongLightStatus);
+        kontradiksiLightStatus.setFill(wrongLightStatus);
+        kontingensiLightStatus.setFill(wrongLightStatus);
+
+        errorLabel.setText("You're Good :)");
+    }
 
 
 
