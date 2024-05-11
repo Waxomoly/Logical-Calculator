@@ -1,47 +1,62 @@
 package org.example.logical_calculator;
 
+
 import java.util.*;
 import java.util.ArrayList;
 
+
 public class LogicCalcu {
-    //Variabel Found Status
+    //Variabel Found Status (buat cek apabila P atau Q ditemukan)
     public static boolean PFound, QFound;
+
 
     //String buat nyimpen error message
     public static String errorString;
+    //boolean akan bernilai true kalau error ditemukan
     private static boolean errorFound;
+
 
     //ini array jawaban
     private static ArrayList<Character> valueArr = new ArrayList<>();
-    //boolean values for lights in output section
+    //boolean values for lights in output section (buat UI)
     private static boolean tautologiStatus = false;
     private static boolean kontradiksiStatus = false;
     private static boolean kontingensiStatus = false;
 
+
+
+
+    //getter and setter
     public static ArrayList<Character> getValueArr() {
         return valueArr;
     }
+
 
     public static boolean isTautologiStatus() {
         return tautologiStatus;
     }
 
+
     public static boolean isKontradiksiStatus() {
         return kontradiksiStatus;
     }
+
 
     public static boolean isKontingensiStatus() {
         return kontingensiStatus;
     }
 
+
     public static boolean isErrorFound() {
         return errorFound;
     }
+
 
     // Pengecekan apakah sebuah operator
     public static boolean isOperator(char c) {
         return c == '~' || c == '&' || c == '|' || c == '>' || c == '<';
     }
+    // penentuan hirarki (dari ~ paling atas hingga implikasi biimplikasi paling tidak diprioritaskan, lalu karakter lain yang di set -1(supaya tidak error).
     public static int precedence(char c) {
         return switch (c) {
             case '~' -> 3; // Negasi
@@ -55,8 +70,10 @@ public class LogicCalcu {
         StringBuilder result = new StringBuilder();
         Stack<Character> stack = new Stack<>();
 
+
         for (int i = 0; i < expression.length(); i++) {
             char c = expression.charAt(i);
+
 
             if (Character.isDigit(c)) {
                 result.append(c);
@@ -82,9 +99,11 @@ public class LogicCalcu {
             result.append(stack.pop());
         }
 
+
         return result.toString();
     }
     // buat hitung hasil
+
 
     public static Stack<Boolean> evaluateExpression(String expression) {
         Stack<Boolean> stack = new Stack<>();
@@ -110,16 +129,19 @@ public class LogicCalcu {
     }
 
 
+
+
     public static void main(String[] args) {}
     public static void generateCombinations(ArrayList<Character> input) {
         //initialize error message
         errorString = "You're Good :)";
 
+
         errorFound = hasError(input);
         if(errorFound){
-            System.out.println("ma-----------------------------");
             return;
         }
+
 
         // Inisialisasi arraylist untuk menyimpan kombinasi yang unik
         ArrayList<ArrayList<Character>> uniqueCombinations = new ArrayList<>();
@@ -156,6 +178,7 @@ public class LogicCalcu {
             }
         }
 
+
         int count = 0, valueArrSize = 0;
         boolean hasilAkhir = true;
         // Mangambil kombinasi unik dan menghitung hasil evaluasi
@@ -167,6 +190,7 @@ public class LogicCalcu {
             }
             String withParentheses = addParentheses(result.toString()); // ubah ke postfix
             Stack<Boolean> evaluationResult = evaluateExpression(withParentheses); // mengoperasikan
+
 
             // simpan hasil operasi ke valueArr
             while (!evaluationResult.isEmpty()) {
@@ -208,8 +232,10 @@ public class LogicCalcu {
             kontradiksiStatus = false;
             kontingensiStatus = true;
 
+
         }
     }
+
 
     // Metode untuk memeriksa apakah kombinasi tersebut unik
     public static boolean isUnique(ArrayList<ArrayList<Character>> combinations, ArrayList<Character> combination) {
@@ -221,6 +247,7 @@ public class LogicCalcu {
         return true;
     }
 
+
     //check for errors
     public static boolean hasError(ArrayList<Character> input){
         // input kosong
@@ -229,6 +256,7 @@ public class LogicCalcu {
             return true;
         }
 
+
         //input karakter tidak sesuai
         for (char c : input) {
             if (!(c == 'P' || c == 'Q' || c == '&' || c == '|' || c== '>'|| c =='<'|| c == '~' || c == '(' || c == ')' || c == ' ' || c == 'F' || c == 'T' || c == '1' || c == '0')) {
@@ -236,6 +264,7 @@ public class LogicCalcu {
                 return true;
             }
         }
+
 
         // cek kurung
         int kurungBuka = 0;
@@ -252,8 +281,9 @@ public class LogicCalcu {
             return true;
         }
 
+
         // cek operand dan operator
-        // operator berturut-turut
+        // error jika dalam ekspresi terdapat operator berturut-turut
         for (int i = 0; i < input.size() - 1; i++) {
             char current = input.get(i);
             char next = input.get(i + 1);
@@ -264,7 +294,8 @@ public class LogicCalcu {
             }
         }
 
-        // semuanya variabel, tidak ada operator
+
+        // error jika dalam ekspresi variabel berturut-turut, tidak ada operator
         for (int i = 0; i < input.size() - 1; i++) {
             char current = input.get(i);
             char next = input.get(i + 1);
@@ -274,7 +305,8 @@ public class LogicCalcu {
             }
         }
 
-        // setelah karakter langsung negasi
+
+        // error jika setelah variabel langsung negasi atau kurung buka
         for (int i = 0; i < input.size() - 1; i++) {
             char current = input.get(i);
             char next = input.get(i + 1);
@@ -285,21 +317,24 @@ public class LogicCalcu {
             }
         }
 
-        // operator di awal
+
+        // error jika operator berada di paling awal ekspresi
         char firstChar = input.get(0);
         if (firstChar == '&' || firstChar == '|' || firstChar == '>' || firstChar == '<') {
             errorString = "Operator invalid ";
             return true;
         }
 
-        // operator di akhir
+
+        // error jika operator berada di paling akhir ekspresi
         char lastChar = input.get(input.size() - 1);
         if (lastChar == '&' || lastChar == '|' || lastChar == '>' || lastChar == '<') {
             errorString = "Operator invalid ";
             return true;
         }
 
-        // operator negasi
+
+        // error jika negasi langsung diikuti operator yang lain
         for (int i = 0; i < input.size() - 1; i++) {
             char current = input.get(i);
             char next = input.get(i + 1);
@@ -309,7 +344,9 @@ public class LogicCalcu {
             }
         }
 
-        //double negasi (hilangkan negasinya)
+
+        //error handling untuk double negasi
+        // jika dalam ekspresi terdapat double negasi maka hilangkan negasinya
         StringBuilder stringBuilder = new StringBuilder();
         for (Character character : input) {
             stringBuilder.append(character);
@@ -336,14 +373,15 @@ public class LogicCalcu {
         }
         System.out.println(input);
 
-        //ERROR : kurung aneh
+
+        //pengecekan error untuk kurung yang invalid
         Stack<Character> stack = new Stack<>();
         boolean countingInsideBrackets = false;
         int insideCount = 0;
         char prevChar = 0, prevPrevChar = 0;
 
+
         for (char x : input) {
-            if (countingInsideBrackets) insideCount++; //untuk count inside kurung ada berapa character
             if (x == '(' && !stack.isEmpty()) {
                 stack.push(x);
                 insideCount = 0;
@@ -355,10 +393,11 @@ public class LogicCalcu {
                     return true;
                 }
                 stack.pop();
+                insideCount = 0;
                 continue;
             }
             if (x == '(') {
-                if (insideCount == 1) {
+                if (insideCount-1 == 1) {
                     if ((prevChar == '&' || prevChar == '|' || prevChar == '>' || prevChar == '<') && prevPrevChar == ')') {
                         continue;
                     } else if (prevChar == '~') {
@@ -367,32 +406,24 @@ public class LogicCalcu {
                         errorString="Tanda kurung tidak lengkap/benar";
                         return true;
                     }
-                } else if (insideCount > 1) {
-                    if (prevChar == '~' && (prevPrevChar == '&' || prevPrevChar == '|' || prevPrevChar == '>' || prevPrevChar == '<')) {
+                } else if (insideCount-1 > 1) {
+                    if (prevChar == '~' || prevChar == '&' || prevChar == '|' || prevChar == '>' || prevChar == '<') {
                         continue;
+                    } else {
+                        errorString="Tanda kurung tidak lengkap/benar";
+                        return true;
                     }
                 }
-                //error klo sebelum kurung '(' adanya bukan operasi, malah variabel dgn nilai true/false
+                //pengecekan error dengan kondisi sebelum kurung buka '(' berupa variabel bukan operator
                 if (prevChar == 'P' || prevChar == 'Q' || prevChar == 'F' || prevChar == 'T') {
                     errorString="Kekurangan operator";
                     return true;
                 }
                 stack.push(x);
+                insideCount=0;
                 countingInsideBrackets = true;
-            } else if (x == ')') {
-                if (stack.empty()) {
-                    errorString="Tanda kurung tidak lengkap/benar";
-                    return true;
-                }
-                //cek di dalam kurung jumlah operasi dan operand tidak kurang dari 2
-                if (stack.peek() != '(') {
-                    errorString="Tanda kurung tidak lengkap/benar";
-                    return true;
-                } else {
-                    stack.pop();
-                    insideCount = 0;
-                }
             }
+            if (countingInsideBrackets) insideCount++; //untuk count inside kurung ada berapa character
             prevPrevChar = prevChar;
             prevChar = x;
         }
@@ -401,7 +432,8 @@ public class LogicCalcu {
             return true;
         }
 
-        //error ngecek kesalah setelah tutup kurung ')'
+
+        //error mengecek kesalahan setelah tutup kurung ')'
         if (countingOutsideBrackets(input, kurungTutup)) {
             errorString = "Operator invalid";
             return true;
@@ -409,10 +441,12 @@ public class LogicCalcu {
         return false;
     }
 
+
     public static boolean countingOutsideBrackets(ArrayList<Character> input, int kurungTutup) {
         boolean counting = false, last = false;
         int count = 0, lastCount = 0;
         char prevChar = 0;
+
 
         for (int i = 0; i < input.size(); i++) {
             char x = input.get(i);
@@ -421,7 +455,7 @@ public class LogicCalcu {
                 if (lastCount == 1 && input.get(input.size()-1) == x) {
                     return true;
                 } else {
-                    //kalau setelah kurung tutup, true skrg di di lastCount yang ke 2 atau lebih,
+                    //jika setelah kurung tutup, true skrg di lastCount yang ke 2 atau lebih,
                     //cek klo yg sebelum karakter di count ke-2 ini, operator atau tidak
                     if (prevChar == 'T' || prevChar == 'F' || prevChar=='~' || prevChar=='P' || prevChar=='Q') {
                         return true;
@@ -429,11 +463,12 @@ public class LogicCalcu {
                 }
             }
 
+
             if (x == ')') {
                 if (count == 1) {
                     return true;
                 } else {
-                    //ini sama kyk logic sebelumnya, bedanya ini cek posisi tergantung posisinya kurung tutup
+                    //sama dengan logic sebelumnya, perbedaannya pada  pengecekan posisi kode ini bergantung pada posisi kurung tutup
                     char test = input.get(i-count);
                     if (test == 'T' || test == 'F' || test=='~' || test=='P' || test=='Q') {
                         return true;
@@ -444,6 +479,7 @@ public class LogicCalcu {
                 }
                 kurungTutup--;
                 count = 0;
+                prevChar = x;
                 counting = true;
                 continue;
             }

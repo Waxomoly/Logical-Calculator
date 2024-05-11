@@ -28,7 +28,6 @@ public class HelloController {
     Color rightLightStatus = Color.rgb(38, 255, 31);
 
     private CalculatorBody calculatorBody = new CalculatorBody();
-    private LogicCalcu logicCalcu = new LogicCalcu();
 
     @FXML
     protected void onKeyboardClicked(ActionEvent e) {

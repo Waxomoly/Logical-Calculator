@@ -6,8 +6,10 @@
   <component name="ChangeListManager">
     <list default="true" id="2dd42a28-9feb-4299-a999-2eb31e738b02" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/logical_calculator/HelloApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/logical_calculator/HelloApplication.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/logical_calculator/HelloController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/logical_calculator/HelloController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/example/logical_calculator/HelloController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/example/logical_calculator/HelloController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/logical_calculator/LogicCalcu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/logical_calculator/LogicCalcu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/example/logical_calculator/HelloApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/example/logical_calculator/HelloApplication.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/org/example/logical_calculator/LogicCalcu.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/example/logical_calculator/LogicCalcu.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -32,6 +34,8 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "git-widget-placeholder": "Kelly",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "D:/KELLY PATRICIA/Documents/.ACADEMIC/Java/Expression-Evaluation-Calculator",
     "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.0"
@@ -69,6 +73,13 @@
         <item itemvalue="Application.LogicCalcu" />
       </list>
     </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="jdk-21.0.2-openjdk-21.0.2-4caba194b151-4f524021" />
+      </set>
+    </attachedChunks>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
