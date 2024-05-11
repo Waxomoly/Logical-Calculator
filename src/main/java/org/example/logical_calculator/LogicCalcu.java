@@ -343,7 +343,6 @@ public class LogicCalcu {
         char prevChar = 0, prevPrevChar = 0;
 
         for (char x : input) {
-            if (countingInsideBrackets) insideCount++; //untuk count inside kurung ada berapa character
             if (x == '(' && !stack.isEmpty()) {
                 stack.push(x);
                 insideCount = 0;
@@ -355,10 +354,11 @@ public class LogicCalcu {
                     return true;
                 }
                 stack.pop();
+                insideCount = 0;
                 continue;
             }
             if (x == '(') {
-                if (insideCount == 1) {
+                if (insideCount-1 == 1) {
                     if ((prevChar == '&' || prevChar == '|' || prevChar == '>' || prevChar == '<') && prevPrevChar == ')') {
                         continue;
                     } else if (prevChar == '~') {
@@ -367,9 +367,12 @@ public class LogicCalcu {
                         errorString="Tanda kurung tidak lengkap/benar";
                         return true;
                     }
-                } else if (insideCount > 1) {
-                    if (prevChar == '~' && (prevPrevChar == '&' || prevPrevChar == '|' || prevPrevChar == '>' || prevPrevChar == '<')) {
+                } else if (insideCount-1 > 1) {
+                    if (prevChar == '~' || prevChar == '&' || prevChar == '|' || prevChar == '>' || prevChar == '<') {
                         continue;
+                    } else {
+                        errorString="Tanda kurung tidak lengkap/benar";
+                        return true;
                     }
                 }
                 //error klo sebelum kurung '(' adanya bukan operasi, malah variabel dgn nilai true/false
@@ -378,21 +381,10 @@ public class LogicCalcu {
                     return true;
                 }
                 stack.push(x);
+                insideCount=0;
                 countingInsideBrackets = true;
-            } else if (x == ')') {
-                if (stack.empty()) {
-                    errorString="Tanda kurung tidak lengkap/benar";
-                    return true;
-                }
-                //cek di dalam kurung jumlah operasi dan operand tidak kurang dari 2
-                if (stack.peek() != '(') {
-                    errorString="Tanda kurung tidak lengkap/benar";
-                    return true;
-                } else {
-                    stack.pop();
-                    insideCount = 0;
-                }
             }
+            if (countingInsideBrackets) insideCount++; //untuk count inside kurung ada berapa character
             prevPrevChar = prevChar;
             prevChar = x;
         }
@@ -445,6 +437,7 @@ public class LogicCalcu {
                 kurungTutup--;
                 count = 0;
                 counting = true;
+                prevChar = x;
                 continue;
             }
             if (counting) count++;

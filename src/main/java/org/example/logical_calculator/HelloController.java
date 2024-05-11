@@ -11,7 +11,7 @@ import javafx.scene.shape.Circle;
 
 import java.util.ArrayList;
 
-public class HelloController {
+public class HelloController { // button"
     @FXML
     private Label equationLabel, errorLabel;
 
@@ -33,7 +33,7 @@ public class HelloController {
     @FXML
     protected void onKeyboardClicked(ActionEvent e) {
 
-        Button clickedButton = (Button) e.getSource();
+        Button clickedButton = (Button) e.getSource();  //get source biar dpt idnya button
 
         if(clickedButton == negasiButton){
             calculatorBody.addToEquation('~');
@@ -122,6 +122,11 @@ public class HelloController {
         LogicCalcu.PFound = false;
         LogicCalcu.QFound = false;
         // Count
+        if(calculatorBody.getEquationOnLabel().size() > 30){
+            errorLabel.setText("Karakter yang diinput lebih dari 30. Tidak boleh.");
+            errorLabel.setTextFill(Color.rgb(255, 0, 0));
+            return;
+        }
         LogicCalcu.generateCombinations(new ArrayList<>(calculatorBody.getEquationOnLabel()));
         System.out.println("p " + LogicCalcu.PFound);
         System.out.println("q " + LogicCalcu.QFound);
@@ -133,7 +138,6 @@ public class HelloController {
             errorLabel.setTextFill(Color.rgb(255, 0, 0));
             System.out.println(LogicCalcu.errorString);
         } else {
-
             // Change the light (penanda hukum)
             if(LogicCalcu.isTautologiStatus()){
                 tautologiLightStatus.setFill(rightLightStatus);
