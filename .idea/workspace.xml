@@ -5,17 +5,29 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2dd42a28-9feb-4299-a999-2eb31e738b02" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/logical_calculator/ExpressionLogicCalcu.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/logical_calculator/HelloApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/logical_calculator/HelloApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/logical_calculator/CalculatorBody.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/logical_calculator/CalculatorBody.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/logical_calculator/HelloController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/logical_calculator/HelloController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/logical_calculator/LogicCalcu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/logical_calculator/LogicCalcu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/example/logical_calculator/HelloApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/example/logical_calculator/HelloApplication.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/logical_calculator/addKurung.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/logical_calculator/UI.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/logical_calculator/UI.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/example/logical_calculator/HelloController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/example/logical_calculator/HelloController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/org/example/logical_calculator/LogicCalcu.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/example/logical_calculator/LogicCalcu.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/example/logical_calculator/UI.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/example/logical_calculator/UI.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/example/logical_calculator/addKurung.class" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -30,6 +42,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Application.ExpressionLogicCalcu.executor": "Run",
     "Application.HelloApplication.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
@@ -41,7 +54,20 @@
     "project.structure.side.proportion": "0.0"
   }
 }]]></component>
-  <component name="RunManager" selected="Application.HelloApplication">
+  <component name="RunManager" selected="Application.ExpressionLogicCalcu">
+    <configuration name="ExpressionLogicCalcu" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="org.example.logical_calculator.ExpressionLogicCalcu" />
+      <module name="Logical_Calculator" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="org.example.logical_calculator.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="HelloApplication" type="Application" factoryName="Application" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="org.example.logical_calculator.HelloApplication" />
       <module name="Logical_Calculator" />
@@ -70,6 +96,7 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.ExpressionLogicCalcu" />
         <item itemvalue="Application.LogicCalcu" />
       </list>
     </recent_temporary>

@@ -2,7 +2,7 @@ package org.example.logical_calculator;
 
 import java.util.ArrayList;
 
-public class CalculatorBody {
+public class CalculatorBody { // semua data tentang input
     private ArrayList<Character> equationOnLabel = new ArrayList<>();
 
     public CalculatorBody() {

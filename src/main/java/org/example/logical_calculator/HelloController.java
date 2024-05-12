@@ -4,14 +4,18 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.EmptyStackException;
+import java.util.ResourceBundle;
 
-public class HelloController {
+public class HelloController implements Initializable { // button"
     @FXML
     private Label equationLabel, errorLabel;
 
@@ -24,72 +28,80 @@ public class HelloController {
     @FXML
     private Circle tautologiLightStatus, kontradiksiLightStatus, kontingensiLightStatus;
 
+    //buat tampilin hasil postfix, prefix, infix
+    @FXML
+    private Label firstFormLabel, secondFormLabel;
+    @FXML
+    private ChoiceBox<String> myChoiceBox;
+    private String[] formChoice = {"Infix", "Prefix", "Postfix"};
+
     Color wrongLightStatus = Color.rgb(255, 31, 31);
     Color rightLightStatus = Color.rgb(38, 255, 31);
 
     private CalculatorBody calculatorBody = new CalculatorBody();
+    private LogicCalcu logicCalcu = new LogicCalcu();
 
     @FXML
     protected void onKeyboardClicked(ActionEvent e) {
 
-        Button clickedButton = (Button) e.getSource();
+        Button clickedButton = (Button) e.getSource();  //get source biar dpt idnya button
 
         if(clickedButton == negasiButton){
             calculatorBody.addToEquation('~');
-            initialize();
+            reset();
         }else if(clickedButton == andButton){
             calculatorBody.addToEquation('&');
-            initialize();
+            reset();
         }else if(clickedButton == orButton){
             calculatorBody.addToEquation('|');
-            initialize();
+            reset();
         }else if(clickedButton == implicationButton){
             calculatorBody.addToEquation('>');
-            initialize();
+            reset();
         }else if(clickedButton == bimplicationButton){
             calculatorBody.addToEquation('<');
-            initialize();
+            reset();
         }else if(clickedButton == PButton){
             calculatorBody.addToEquation('P');
-            initialize();
+            reset();
         }else if(clickedButton == QButton){
             calculatorBody.addToEquation('Q');
-            initialize();
+            reset();
         }else if(clickedButton == fButton){
             calculatorBody.addToEquation('F');
-            initialize();
+            reset();
         }else if(clickedButton == tButton){
             calculatorBody.addToEquation('T');
-            initialize();
+            reset();
         }else if(clickedButton == backspaceButton){
             calculatorBody.backspace();
-            initialize();
+            reset();
         }else if(clickedButton == clearButton){
             calculatorBody.clear();
-            initialize();
+            reset();
         }else if(clickedButton == openBracketButton){
             calculatorBody.addToEquation('(');
-            initialize();
+            reset();
         }else if(clickedButton == closingBracketButton){
             calculatorBody.addToEquation(')');
-            initialize();
+            reset();
         }else if(clickedButton == enterButton){
             enterLabel();
         }else{
             System.out.println("Button is not recognized.");
         }
 
-        printLabel();
+        printLabel(calculatorBody.getEquationOnLabel(), equationLabel);
 
     }
 
 
     @FXML
-    protected void printLabel(){
+    protected void printLabel(ArrayList<Character> equationList, Label chosenLabel){
         //Use Stringbuilder
         StringBuilder stringBuilder = new StringBuilder();
 
-        for(char c : calculatorBody.getEquationOnLabel()) {
+        for(char c : equationList) {
 
             if(c == '&'){
                 stringBuilder.append('∧');
@@ -110,7 +122,7 @@ public class HelloController {
             }
         }
 
-        equationLabel.setText(stringBuilder.toString());
+        chosenLabel.setText(stringBuilder.toString());
     }
 
     @FXML
@@ -121,18 +133,35 @@ public class HelloController {
         LogicCalcu.PFound = false;
         LogicCalcu.QFound = false;
         // Count
+        if(calculatorBody.getEquationOnLabel().size() > 30){
+            errorLabel.setText("Karakter yang diinput lebih dari 30. Tidak boleh.");
+            errorLabel.setTextFill(Color.rgb(255, 0, 0));
+            return;
+        }
         LogicCalcu.generateCombinations(new ArrayList<>(calculatorBody.getEquationOnLabel()));
         System.out.println("p " + LogicCalcu.PFound);
         System.out.println("q " + LogicCalcu.QFound);
+
+        //create required prefix, infix, or postfix. Also check for errors.
+//        try{
+//
+//        }catch(EmptyStackException e){
+//
+//        }
+
+
         // Two conditions: if error is met (results will be empty) and if error is not met (result will show)
 
-        if (LogicCalcu.isErrorFound()) { // Nanti ini diisi kalok ada eror
-            initialize();
-            errorLabel.setText(LogicCalcu.errorString);
+        if (LogicCalcu.isErrorFound() || ExpressionLogicCalcu.isErrorFound()) { // Nanti ini diisi kalok ada eror
+            reset();
+            if(ExpressionLogicCalcu.isErrorFound()){
+                errorLabel.setText("Expression given is not " + myChoiceBox.getValue() + ".");
+            }else if(LogicCalcu.isErrorFound()){
+                errorLabel.setText(LogicCalcu.errorString);
+            }
             errorLabel.setTextFill(Color.rgb(255, 0, 0));
             System.out.println(LogicCalcu.errorString);
         } else {
-
             // Change the light (penanda hukum)
             if(LogicCalcu.isTautologiStatus()){
                 tautologiLightStatus.setFill(rightLightStatus);
@@ -200,6 +229,15 @@ public class HelloController {
                 resultCol.setCellValueFactory(new PropertyValueFactory<>("resultValue"));
 
                 myTable.getColumns().addAll(PCol, QCol, resultCol);
+
+                PCol.setPrefWidth(114);
+                QCol.setPrefWidth(114);
+                resultCol.setPrefWidth(114);
+
+                PCol.setResizable(false);
+                QCol.setResizable(false);
+                resultCol.setResizable(false);
+
             } else if (LogicCalcu.getValueArr().size() == 2) { // Cuma ada 1 variabel (P or Q)
                 if (LogicCalcu.PFound) {
                     TableColumn<DataItem, String> PCol = new TableColumn<>("PCol");
@@ -209,6 +247,12 @@ public class HelloController {
                     resultCol.setCellValueFactory(new PropertyValueFactory<>("resultValue"));
 
                     myTable.getColumns().addAll(PCol, resultCol);
+
+                    PCol.setPrefWidth(171);
+                    resultCol.setPrefWidth(171);
+
+                    PCol.setResizable(false);
+                    resultCol.setResizable(false);
                 } else if (LogicCalcu.QFound) {
                     TableColumn<DataItem, String> QCol = new TableColumn<>("QCol");
                     QCol.setCellValueFactory(new PropertyValueFactory<>("qValue"));
@@ -217,6 +261,12 @@ public class HelloController {
                     resultCol.setCellValueFactory(new PropertyValueFactory<>("resultValue"));
 
                     myTable.getColumns().addAll(QCol, resultCol);
+
+                    QCol.setPrefWidth(171);
+                    resultCol.setPrefWidth(171);
+
+                    QCol.setResizable(false);
+                    resultCol.setResizable(false);
                 } else {
                     System.out.println("Something went wrong. (HelloController.java -> enterLabel() [1])");
                 }
@@ -224,20 +274,30 @@ public class HelloController {
                 TableColumn<DataItem, String> answer = new TableColumn<>("Single Answer");
                 answer.setCellValueFactory(new PropertyValueFactory<>("resultValue"));
                 myTable.getColumns().add(answer);
+
+
+                answer.setPrefWidth(342);
+
+                answer.setResizable(false);
             } else {
                 System.out.println("Something went wrong. (HelloController.java -> enterLabel() [2])");
             }
 
             // Set the ObservableList as the items list for the TableView
             myTable.setItems(dataItems);
+            myTable.setStyle("-fx-font-size: 18;");
 
 
         }
+
+
+
+
     }
 
 
     @FXML
-    public void initialize(){
+    public void reset(){
         // Clear Table
         myTable.getColumns().clear();
 
@@ -251,5 +311,9 @@ public class HelloController {
     }
 
 
-
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        myChoiceBox.getItems().addAll(formChoice);
+        myChoiceBox.setValue(formChoice[0]);
+    }
 }
