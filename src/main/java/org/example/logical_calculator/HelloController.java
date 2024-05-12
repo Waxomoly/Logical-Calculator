@@ -93,18 +93,24 @@ public class HelloController implements Initializable { // button"
             System.out.println("Button is not recognized.");
         }
 
-        printLabel(calculatorBody.getEquationOnLabel(), equationLabel);
+        //turn arraylist into string
+        StringBuilder str = new StringBuilder();
+        for(char c : calculatorBody.getEquationOnLabel()){
+            str.append(c);
+        }
+
+        printLabel(str.toString(), equationLabel);
 
     }
 
 
     @FXML
-    protected void printLabel(ArrayList<Character> equationList, Label chosenLabel){
+    protected void printLabel(String equationList, Label chosenLabel){
         //Use Stringbuilder
         StringBuilder stringBuilder = new StringBuilder();
 
-        for(char c : equationList) {
-
+        for(int i = 0; i < equationList.length(); i++) {
+            char c = equationList.charAt(i);
             if(c == '&'){
                 stringBuilder.append('∧');
             }else if(c == '|'){
@@ -291,19 +297,19 @@ public class HelloController implements Initializable { // button"
             //set infix, prefix, postfix labels
             if(inputFormType.equalsIgnoreCase("infix")){
                 firstFormNameLabel.setText("Prefix");
-                firstFormLabel.setText(LogicCalcu.getPrefix());
+                printLabel(LogicCalcu.getPrefix(), firstFormLabel);
                 secondFormNameLabel.setText("Postfix");
-                secondFormLabel.setText(LogicCalcu.getPostfix());
+                printLabel(LogicCalcu.getPostfix(), secondFormLabel);
             }else if(inputFormType.equalsIgnoreCase("prefix")){
                 firstFormNameLabel.setText("Infix");
-                firstFormLabel.setText(LogicCalcu.getInfix());
+                printLabel(LogicCalcu.getInfix(), firstFormLabel);
                 secondFormNameLabel.setText("Postfix");
-                secondFormLabel.setText(LogicCalcu.getPostfix());
+                printLabel(LogicCalcu.getPostfix(), secondFormLabel);
             }else if(inputFormType.equalsIgnoreCase("postfix")){
                 firstFormNameLabel.setText("Infix");
-                firstFormLabel.setText(LogicCalcu.getInfix());
+                printLabel(LogicCalcu.getInfix(), firstFormLabel);
                 secondFormNameLabel.setText("Prefix");
-                secondFormLabel.setText(LogicCalcu.getPrefix());
+                printLabel(LogicCalcu.getPrefix(), secondFormLabel);
             }else{
                 System.out.println("something went wrong. HelloController.JAVA -> enterLabel() [3]");
             }
