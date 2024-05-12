@@ -5,15 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2dd42a28-9feb-4299-a999-2eb31e738b02" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/logical_calculator/ExpressionLogicCalcu.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/logical_calculator/HelloController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/logical_calculator/HelloController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/example/logical_calculator/LogicCalcu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/logical_calculator/LogicCalcu.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/org/example/logical_calculator/UI.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/org/example/logical_calculator/UI.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/example/logical_calculator/ExpressionLogicCalcu.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/example/logical_calculator/CalculatorBody.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/example/logical_calculator/CalculatorBody.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/example/logical_calculator/DataItem.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/example/logical_calculator/DataItem.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/org/example/logical_calculator/HelloApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/example/logical_calculator/HelloApplication.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/org/example/logical_calculator/HelloController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/example/logical_calculator/HelloController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/org/example/logical_calculator/LogicCalcu.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/example/logical_calculator/LogicCalcu.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/org/example/logical_calculator/UI.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/org/example/logical_calculator/UI.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,6 +29,23 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "shellasitanaya"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="7012fc35-94c6-49d6-b301-3e54d1f1e37f" />
+        <option name="url" value="https://github.com/Waxomoly/Logical-Calculator.git" />
+      </UrlAndAccount>
+    </option>
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectColorInfo">{
         &quot;associatedIndex&quot;: 2
         }</component>
@@ -45,12 +61,13 @@
     "Application.LogicCalcu.executor": "Run",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "Kelly",
+    "git-widget-placeholder": "shellaaa",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "D:/KELLY PATRICIA/Documents/.ACADEMIC/Java/Expression-Evaluation-Calculator",
     "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.0"
+    "project.structure.side.proportion": "0.2",
+    "run.code.analysis.last.selected.profile": "pProject Default"
   }
 }]]></component>
   <component name="RunManager" selected="Application.HelloApplication">
@@ -141,5 +158,8 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="LAST_COMMIT_MESSAGE" value="" />
   </component>
 </project>
