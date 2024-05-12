@@ -30,6 +30,8 @@ public class HelloController implements Initializable { // button"
 
     //buat tampilin hasil postfix, prefix, infix
     @FXML
+    private Label firstFormNameLabel, secondFormNameLabel;
+    @FXML
     private Label firstFormLabel, secondFormLabel;
     @FXML
     private ChoiceBox<String> myChoiceBox;
@@ -133,32 +135,30 @@ public class HelloController implements Initializable { // button"
         LogicCalcu.PFound = false;
         LogicCalcu.QFound = false;
         // Count
-        if(calculatorBody.getEquationOnLabel().size() > 30){
-            errorLabel.setText("Karakter yang diinput lebih dari 30. Tidak boleh.");
+        if(calculatorBody.getEquationOnLabel().size() > 10){
+            errorLabel.setText("Karakter yang diinput lebih dari 10. Tidak boleh.");
             errorLabel.setTextFill(Color.rgb(255, 0, 0));
             return;
         }
-        LogicCalcu.generateCombinations(new ArrayList<>(calculatorBody.getEquationOnLabel()));
+
+        //turn equation into string
+        StringBuilder str = new StringBuilder();
+        for(char c : calculatorBody.getEquationOnLabel()){
+            str.append(c);
+        }
+
+        String inputFormType = myChoiceBox.getValue();
+        LogicCalcu.startCalculating(str.toString(), inputFormType);
         System.out.println("p " + LogicCalcu.PFound);
         System.out.println("q " + LogicCalcu.QFound);
 
-        //create required prefix, infix, or postfix. Also check for errors.
-//        try{
-//
-//        }catch(EmptyStackException e){
-//
-//        }
 
 
         // Two conditions: if error is met (results will be empty) and if error is not met (result will show)
 
-        if (LogicCalcu.isErrorFound() || ExpressionLogicCalcu.isErrorFound()) { // Nanti ini diisi kalok ada eror
+        if (LogicCalcu.isErrorFound()) { // Nanti ini diisi kalok ada eror
             reset();
-            if(ExpressionLogicCalcu.isErrorFound()){
-                errorLabel.setText("Expression given is not " + myChoiceBox.getValue() + ".");
-            }else if(LogicCalcu.isErrorFound()){
-                errorLabel.setText(LogicCalcu.errorString);
-            }
+            errorLabel.setText(LogicCalcu.errorString);
             errorLabel.setTextFill(Color.rgb(255, 0, 0));
             System.out.println(LogicCalcu.errorString);
         } else {
@@ -288,10 +288,26 @@ public class HelloController implements Initializable { // button"
             myTable.setStyle("-fx-font-size: 18;");
 
 
+            //set infix, prefix, postfix labels
+            if(inputFormType.equalsIgnoreCase("infix")){
+                firstFormNameLabel.setText("Prefix");
+                firstFormLabel.setText(LogicCalcu.getPrefix());
+                secondFormNameLabel.setText("Postfix");
+                secondFormLabel.setText(LogicCalcu.getPostfix());
+            }else if(inputFormType.equalsIgnoreCase("prefix")){
+                firstFormNameLabel.setText("Infix");
+                firstFormLabel.setText(LogicCalcu.getInfix());
+                secondFormNameLabel.setText("Postfix");
+                secondFormLabel.setText(LogicCalcu.getPostfix());
+            }else if(inputFormType.equalsIgnoreCase("postfix")){
+                firstFormNameLabel.setText("Infix");
+                firstFormLabel.setText(LogicCalcu.getInfix());
+                secondFormNameLabel.setText("Prefix");
+                secondFormLabel.setText(LogicCalcu.getPrefix());
+            }else{
+                System.out.println("something went wrong. HelloController.JAVA -> enterLabel() [3]");
+            }
         }
-
-
-
 
     }
 
@@ -308,6 +324,14 @@ public class HelloController implements Initializable { // button"
 
         errorLabel.setText("You're Good :)");
         errorLabel.setTextFill(Color.rgb(0, 0, 0));
+
+        //reset answer label titles
+        firstFormNameLabel.setText("[EMPTY] Please enter valid equation");
+        secondFormNameLabel.setText("[EMPTY] Please enter valid equation");
+
+        //clear answer labels
+        firstFormLabel.setText("");
+        secondFormLabel.setText("");
     }
 
 
