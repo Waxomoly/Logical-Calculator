@@ -632,9 +632,9 @@ public class LogicCalcu {
             return true;
         }
 
-        //error ngecek kesalah setelah tutup kurung ')'
+        //error ngecek kesalahan setelah tutup kurung ')'
         if (countingOutsideBrackets(input, kurungTutup)) {
-            errorString = "Operator invalid";
+            errorString = "Kekurangan operator";
             return true;
         }
         return false;
