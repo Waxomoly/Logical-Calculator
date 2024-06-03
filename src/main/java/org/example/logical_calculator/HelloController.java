@@ -141,8 +141,8 @@ public class HelloController implements Initializable { // button"
         LogicCalcu.PFound = false;
         LogicCalcu.QFound = false;
         // Count
-        if(calculatorBody.getEquationOnLabel().size() > 10){
-            errorLabel.setText("Karakter yang diinput lebih dari 10. Tidak boleh.");
+        if(calculatorBody.getEquationOnLabel().size() > 30){
+            errorLabel.setText("Karakter yang diinput lebih dari 30. Tidak boleh.");
             errorLabel.setTextFill(Color.rgb(255, 0, 0));
             return;
         }
