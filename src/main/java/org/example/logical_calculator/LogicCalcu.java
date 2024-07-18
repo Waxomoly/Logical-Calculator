@@ -5,9 +5,11 @@ public class LogicCalcu {
     //Variabel Found Status
     public static boolean PFound, QFound;
 
+
     //String buat nyimpen error message
     public static String errorString;
     private static boolean errorFound;
+
 
     //ini array jawaban
     private static ArrayList<Character> valueArr = new ArrayList<>();
@@ -16,45 +18,56 @@ public class LogicCalcu {
     private static boolean kontradiksiStatus = false;
     private static boolean kontingensiStatus = false;
 
+
     //nyimpen string infix, postfix, prefix
     private static String infix, postfix, prefix;
+
 
     public static ArrayList<Character> getValueArr() {
         return valueArr;
     }
 
+
     public static boolean isTautologiStatus() {
         return tautologiStatus;
     }
+
 
     public static boolean isKontradiksiStatus() {
         return kontradiksiStatus;
     }
 
+
     public static boolean isKontingensiStatus() {
         return kontingensiStatus;
     }
+
 
     public static boolean isErrorFound() {
         return errorFound;
     }
 
+
     public static String getInfix() {
         return infix;
     }
+
 
     public static String getPostfix() {
         return postfix;
     }
 
+
     public static String getPrefix() {
         return prefix;
     }
+
 
     // Pengecekan apakah sebuah operator
     public static boolean isOperator(char c) {
         return c == '~' || c == '&' || c == '|' || c == '>' || c == '<';
     }
+
 
     public static int precedence(char c) {
         return switch (c) {
@@ -65,6 +78,7 @@ public class LogicCalcu {
             default -> -1; // IMPLIKASI BIIMPLIKASI
         };
     }
+
 
     public static String postfix(String expression) {
         StringBuilder result = new StringBuilder(); // buat simpan hasil postfix
@@ -83,10 +97,14 @@ public class LogicCalcu {
                 }
                 stack.pop(); // Pop '('
             } else if (isOperator(c)) {
-                while (!stack.isEmpty() && precedence(c) <= precedence(stack.peek())) { // pop operator dengan precedence lebih tinggi/ sama
-                    result.append(stack.pop());
+                if (c == '~') {
+                    stack.push(c);
+                } else {
+                    while (!stack.isEmpty() && precedence(c) <= precedence(stack.peek())) { // pop operator dengan precedence lebih tinggi/ sama
+                        result.append(stack.pop());
+                    }
+                    stack.push(c); // masukkan operator saat ini ke stack jika precedence c lebih kecil dari precedence elemen teratas stack
                 }
-                stack.push(c); // masukkan operator saat ini ke stack jika precedence c lebih kecil dari precedence elemen teratas stack
             }
         }
         while (!stack.isEmpty()) {
@@ -100,11 +118,14 @@ public class LogicCalcu {
         StringBuilder prefixExpression = new StringBuilder();
         Stack<Character> stack = new Stack<>();
 
+
         // Balik ekspresi infix - > supaya stack bisa bekerja dari kiri ke kanan (cara kerja stack yg terakhir msk, di pop pertama)
         StringBuilder reversedInfix = new StringBuilder(infixExpression).reverse();
 
+
         for (int i = 0; i < reversedInfix.length(); i++) {
             char c = reversedInfix.charAt(i);
+
 
             if (Character.isLetter(c)) {
                 // karakter adalah huruf -> tambahkan ke ekspresi prefix
@@ -118,6 +139,7 @@ public class LogicCalcu {
                 }
                 stack.pop(); // Pop '('
 
+
             } else if (isOperator(c)) {
                 // karakter adalah operator -> tambahkan operator dengan precedence lebih rendah ke ekspresi prefix
                 while (!stack.isEmpty() && precedence(stack.peek()) > precedence(c)) {
@@ -127,17 +149,21 @@ public class LogicCalcu {
             }
         }
 
+
         // Pop sisa operator dari stack dan tambahkan ke ekspresi prefix
         while (!stack.isEmpty()) {
             prefixExpression.append(stack.pop());
         }
 
+
         // Balik ekspresi prefix untuk mendapatkan hasil akhir
         return prefixExpression.reverse().toString();
     }
 
+
     public static String addParentheses(String postfix) {
         Stack<String> operandStack = new Stack<>();
+
 
         for (char c : postfix.toCharArray()) {
             if (Character.isLetter(c)) { // kalau P atau Q atau T atau F, mka dimasukkan dalam stack
@@ -165,10 +191,12 @@ public class LogicCalcu {
         return operandStack.pop();
     }
 
+
     public static String prefixToPostfix(String prefix) {
         StringBuilder reversed = new StringBuilder(prefix).reverse(); // buat bisa baca dari kanan ke kiri
         Stack<String> operandStack = new Stack<>(); // stack buat simpan operand String
         StringBuilder postfix = new StringBuilder(); // buat simpan hasil dari stack, supaya bisa di reverse lagi
+
 
         for (int i = 0; i < reversed.length(); i++) {
             char c = reversed.charAt(i);
@@ -197,6 +225,7 @@ public class LogicCalcu {
     }
     // buat hitung hasil
 
+
     public static Stack<Boolean> evaluateExpression(String expression) {
         Stack<Boolean> stack = new Stack<>();
         for (char c : expression.toCharArray()) {
@@ -221,67 +250,12 @@ public class LogicCalcu {
     }
 
 
+
+
     public static void main(String[] args) {
-//        Scanner sc = new Scanner(System.in);
-//        int choice;
-//        String input;
-//        String postfix;
-//        try {
-//            while (true) {
-//                System.out.println(".:INPUT MENU:.");
-//                System.out.println("1. Infix");
-//                System.out.println("2. Prefix");
-//                System.out.println("3. Postfix");
-//                System.out.print("Enter your choice: ");
-//                choice = sc.nextInt();
-//                if (choice == 0) {
-//                    System.exit(0);
-//                }
-//                sc.nextLine();
-//                System.out.print("Input the expression: ");
-//                input = sc.nextLine();
-////                if(input.contains(" ")){
-////                    errorFound = true;
-////                    errorString = "Input kosong! Masukkan input!";
-//////                    System.out.println(errorString);
-////                    break;
-////                }
-//                if (choice == 1) {
-//                    if(!checkInfix(input)){
-//                        return;
-//                    }
-//                    postfix = postfix(input);
-//                    String prefix = infixToPrefix(input);
-//                    System.out.println("Prefix: " + prefix);
-//                    System.out.println("Postfix: " + postfix);
-//                    generateCombinations(postfix);
-//                } else if (choice == 2) {
-//                    postfix = prefixToPostfix(input);
-//                    String infix = addParentheses(postfix);
-//                    generateCombinations(postfix);
-//                    if(errorFound){
-//                        break;
-//                    } else{
-//                        System.out.println("Infix: " + infix);
-//                        System.out.println("Postfix: " + postfix);
-//                    }
-//                } else if (choice == 3) {
-//                    postfix = input;
-//                    String infix = addParentheses(input);
-//                    String prefix = infixToPrefix(infix);
-//                    generateCombinations(postfix);
-//                    if(errorFound){
-//                        break;
-//                    } else{
-//                        System.out.println("Infix: " + infix);
-//                        System.out.println("Prefix: " + prefix);
-//                    }
-//                }
-//            }
-//        } catch(EmptyStackException e) {
-//            System.out.println("Input ekspresi tidak valid");
-//        }
     }
+
+
     public static boolean checkInfix(String input){
         boolean valid = true;
         ArrayList<Character> infix = new ArrayList<>();
@@ -297,6 +271,7 @@ public class LogicCalcu {
         }
         return valid;
     }
+
 
     public static void startCalculating(String equation, String formType){
         infix = " ";
@@ -338,7 +313,9 @@ public class LogicCalcu {
         }
     }
 
+
     public static void generateCombinations(String postfix) {
+
 
         if(postfix.isEmpty()){
             errorFound = true;
@@ -347,6 +324,7 @@ public class LogicCalcu {
             return;
         }
 
+
         ArrayList<Character> input = new ArrayList<>();
         String infix = addParentheses(postfix);
         for (int i = 0; i < infix.length(); i++) {
@@ -354,6 +332,7 @@ public class LogicCalcu {
         }
         //initialize error message
         errorString = "You're Good :)";
+
 
         errorFound = hasError(input);
         if (errorFound) {
@@ -395,6 +374,7 @@ public class LogicCalcu {
             }
         }
 
+
         int count = 0, valueArrSize = 0;
         boolean hasilAkhir = true;
         // Mangambil kombinasi unik dan menghitung hasil evaluasi
@@ -405,6 +385,7 @@ public class LogicCalcu {
                 result.append(ch).append(" ");
             }
             Stack<Boolean> evaluationResult = evaluateExpression(result.toString()); // mengoperasikan
+
 
             // simpan hasil operasi ke valueArr
             while (!evaluationResult.isEmpty()) {
@@ -446,8 +427,10 @@ public class LogicCalcu {
             kontradiksiStatus = false;
             kontingensiStatus = true;
 
+
         }
     }
+
 
     // Metode untuk memeriksa apakah kombinasi tersebut unik
     public static boolean isUnique(ArrayList<ArrayList<Character>> combinations, ArrayList<Character> combination) {
@@ -460,6 +443,8 @@ public class LogicCalcu {
     }
 
 
+
+
     //check for errors
     public static boolean hasError(ArrayList<Character> input) {
         // input kosong
@@ -468,6 +453,7 @@ public class LogicCalcu {
             return true;
         }
 
+
         //input karakter tidak sesuai
         for (char c : input) {
             if (!(c == 'P' || c == 'Q' || c == '&' || c == '|' || c == '>' || c == '<' || c == '~' || c == '(' || c == ')' || c == ' ' || c == 'F' || c == 'T' || c == '1' || c == '0')) {
@@ -475,6 +461,7 @@ public class LogicCalcu {
                 return true;
             }
         }
+
 
         // cek kurung
         int kurungBuka = 0;
@@ -491,6 +478,7 @@ public class LogicCalcu {
             return true;
         }
 
+
         // cek operand dan operator
         // operator berturut-turut
         for (int i = 0; i < input.size() - 1; i++) {
@@ -503,6 +491,7 @@ public class LogicCalcu {
             }
         }
 
+
         // semuanya variabel, tidak ada operator
         for (int i = 0; i < input.size() - 1; i++) {
             char current = input.get(i);
@@ -512,6 +501,7 @@ public class LogicCalcu {
                 return true;
             }
         }
+
 
         // setelah karakter langsung negasi
         for (int i = 0; i < input.size() - 1; i++) {
@@ -524,6 +514,7 @@ public class LogicCalcu {
             }
         }
 
+
         // operator di awal
         char firstChar = input.get(0);
         if (firstChar == '&' || firstChar == '|' || firstChar == '>' || firstChar == '<') {
@@ -531,12 +522,14 @@ public class LogicCalcu {
             return true;
         }
 
+
         // operator di akhir
         char lastChar = input.get(input.size() - 1);
         if (lastChar == '&' || lastChar == '|' || lastChar == '>' || lastChar == '<') {
             errorString = "Operator invalid ";
             return true;
         }
+
 
         // operator negasi
         for (int i = 0; i < input.size() - 1; i++) {
@@ -547,6 +540,7 @@ public class LogicCalcu {
                 return true;
             }
         }
+
 
         //double negasi (hilangkan negasinya)
         StringBuilder stringBuilder = new StringBuilder();
@@ -575,11 +569,13 @@ public class LogicCalcu {
         }
         System.out.println(input);
 
+
         //ERROR : kurung aneh
         Stack<Character> stack = new Stack<>();
         boolean countingInsideBrackets = false;
         int insideCount = 0;
         char prevChar = 0, prevPrevChar = 0;
+
 
         for (char x : input) {
             if (x == '(' && !stack.isEmpty()) {
@@ -632,6 +628,7 @@ public class LogicCalcu {
             return true;
         }
 
+
         //error ngecek kesalahan setelah tutup kurung ')'
         if (countingOutsideBrackets(input, kurungTutup)) {
             errorString = "Kekurangan operator";
@@ -640,10 +637,12 @@ public class LogicCalcu {
         return false;
     }
 
+
     public static boolean countingOutsideBrackets(ArrayList<Character> input, int kurungTutup) {
         boolean counting = false, last = false;
         int count = 0, lastCount = 0;
         char prevChar = 0;
+
 
         for (int i = 0; i < input.size(); i++) {
             char x = input.get(i);
@@ -659,6 +658,7 @@ public class LogicCalcu {
                     }
                 }
             }
+
 
             if (x == ')') {
                 if (count == 1) {
