@@ -11,7 +11,6 @@ public class CalculatorBody { // semua data tentang input
     public void addToEquation(char c){
         this.equationOnLabel.add(c);
     }
-
     public ArrayList<Character> getEquationOnLabel() {
         return equationOnLabel;
     }
